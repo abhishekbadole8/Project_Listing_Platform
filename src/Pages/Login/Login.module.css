@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.AuthPage {
+    width: 100vw;
+    height: 100vh;
+    background: #36416A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.AuthPagecontainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15vh;
+}
+
+.headingBox {
+    padding-left: 1vw;
+    padding-bottom: 2.5vh;
+    color: #fff;
+}
+
+.headingBox h2 {
+    font-size: 2.6rem;
+}
+
+.headingBox p {
+    padding-top: 1vh;
+    font-size: 1.3rem;
+}
+
+.AuthPageLoginBox {
+    width: 45vw;
+    height: 44vh;
+    padding: 2.5vh 2.5vw;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 36px rgba(0, 0, 0, 0.25);
+    border-radius: 33px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5vh;
+}
+
+.AuthPageLoginBox input {
+    font-size: 1.3rem;
+    width: 90%;
+    height: 5.5vh;
+    padding-left: .5vw;
+    color: #737373;
+    border: none;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+.AuthPageLoginBox p {
+    color: #737373;
+    margin: 1vh 1.5vw;
+    font-size: 1.1rem;
+}
+
+.AuthPageLoginBox span {
+    text-decoration-line: underline;
+    color: #36416A;
+    font-size: 1.1rem;
+    margin-left: .5vw;
+    cursor: pointer;
+}
+
+
+.email,
+.password {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+
+.loginButton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.loginButton button {
+    color: #fff;
+    width: 7.95vw;
+    height: 5.5vh;
+    font-size: 1.1rem;
+    background: #36416A;
+    border-radius: 27.907px;
+    border: none;
+    cursor: pointer;
+}

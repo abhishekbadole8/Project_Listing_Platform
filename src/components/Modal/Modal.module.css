@@ -1,0 +1,110 @@
+.modalBackground {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    /* background-color: rgba(200, 200, 200); */
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer {
+    width: 55vw;
+    height: 60vh;
+    /* height: 100%; */
+    display: flex;
+}
+
+.modalLeft {
+    width: 32vw;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5vh 4vw;
+    gap: 2.5vh;
+}
+
+.modalLeft h4 {
+    font-weight: 700;
+    font-size: 1.65rem;
+    color: #000;
+    margin-bottom: 1vh;
+}
+
+.modalLeft input {
+    font-size: 1.2rem;
+    width: 100%;
+    height: 5.4vh;
+    padding-left: .5vw;
+    color: #737373;
+    border: none;
+    border-bottom: 1px solid #AAAAAA;
+}
+.inputStyle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+
+.submitButton {
+    display: flex;
+    margin-top: .8vh;
+    justify-content: flex-start;
+}
+
+.submitButton button {
+    color: #fff;
+    width: 8.5vw;
+    height: 5.5vh;
+    font-size: 1.1rem;
+    background: #36416A;
+    border-radius: 27.907px;
+    border: none;
+    cursor: pointer; 
+}
+
+/* Right Side */
+.modalRight {
+    width: 23vw;
+    height: 100%;
+    color: #fff;
+    padding-top: 5vh;
+    padding-left: 2vw;
+    padding-right: 9vw;
+    background: #36416A;
+}
+
+.modalRight h4 {
+    font-weight: 500;
+    font-size: 2rem;
+    margin-bottom: 2vh;
+}
+
+.modalRight p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 37px;
+}
+
+
+
+
+/* SignUP */
+.modalLeft p {
+    font-weight: 500;
+    color: #737373;
+    margin: 1vh 1.5vw;
+    font-size: 1.1rem;
+}
+.modalLeft span {
+    text-decoration-line: underline;
+    color: #36416A;
+    font-size: 1.1rem;
+    margin-left: .5vw;
+    cursor: pointer;
+}

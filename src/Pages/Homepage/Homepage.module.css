@@ -1,0 +1,293 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'DM Sans';
+}
+
+.bodyMain {
+    display: flex;
+}
+
+.bodyContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.posterCotainer {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.heading {
+    width: 50%;
+    height: 50vh;
+    font-family: 'DM Sans';
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+}
+
+.heading h3 {
+    margin-top: 7vh;
+    font-weight: 500;
+    font-size: 3.1rem;
+    line-height: 135.2%;
+    color: #000000;
+}
+
+.heading p {
+    font-size: 1.2rem;
+    line-height: 148.2%;
+    color: #6A6A6A;
+}
+
+/* Main Container */
+.mainContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 3.5vw;
+
+}
+
+/* Filter Container */
+.filterContainer {
+    width: 18vw;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.filterUpBox {
+    width: 100%;
+    height: 18vh;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-top: 7vh;
+    background: #36416A;
+    border-radius: 14.8793px;
+    padding-left: 3vw;
+}
+
+.filterDownBox {
+    /* width: 100%; */
+    width: 18vw;
+    display: flex;
+    gap: 1vw;
+    flex-wrap: wrap;
+    padding: 2.5vh 2vw;
+    box-shadow: 0px 0px 17.5051px rgba(0, 0, 0, 0.15);
+    border-radius: 11.3783px;
+}
+
+.filterTags {
+    cursor: pointer;
+    width: 6.45vw;
+    height: 4.75vh;
+    font-size: 1.1rem;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(54, 65, 106, 0.15);
+    border-radius: 25.0428px;
+}
+
+.filterTags:hover {
+    color: #fff;
+    background: #000;
+    background: #36416A;
+}
+
+/* Project Container */
+.projectsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
+/* Top Bar */
+.projectsTopBar {
+    width: 70vw;
+    height: 7.75vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid rgba(54, 65, 106, 0.35);
+    border-radius: 8px;
+    padding: 1vh 1.75vw;
+}
+
+.projectsTopBarLeft {
+    gap: 2.5vw;
+}
+
+.projectsTopBarLeft h5 {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.projectsTopBarLeft,
+.sortDiv {
+    display: flex;
+}
+
+.sortDiv p {
+    color: #8B8B8B;
+    margin-right: .5vw;
+}
+
+.sortDiv select {
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.sortDiv select option {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.projectsTopBarRight button {
+    cursor: pointer;
+    min-width: 10vw;
+    /* width: 10vw; */
+    height: 5vh;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1.1rem;
+    border: none;
+    background: #36416A;
+    border-radius: 7px;
+}
+
+/* boxes Container */
+
+.productsBoxContainer {
+    width: 70vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+/* Box 1 */
+.projectsBox {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5vh;
+    background: rgba(54, 65, 106, 0.15);
+    border-radius: 4px;
+    padding: 1.5vh 1.75vw;
+}
+
+.projectBoxUp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.projectDetailsBoxLeft {
+    display: flex;
+    gap: 1.5vw;
+}
+
+.projectLogo {
+    height: 100%;
+}
+
+.jobDetailsInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1vh;
+}
+
+.jobDetailsInfo h5 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #36416A;
+}
+
+.typeDetails {
+    display: flex;
+    gap: 1.5vw;
+}
+
+.projectType {
+    display: flex;
+    gap: 1vw;
+}
+
+.projectType p {
+    width: 5.5vw;
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #C0CEFF;
+    border-radius: 20.9396px;
+}
+
+.projectComments {
+    color: #ABABAB;
+    display: flex;
+    font-size: 1.1rem;
+    font-weight: 500;
+    gap: .5vw;
+    align-items: center;
+    cursor: pointer;
+}
+
+/*Product Box Right Side */
+.projectDetailsBoxRight {
+    display: flex;
+    gap: 2vw;
+}
+
+.projectEditButtonDiv {
+    display: flex;
+    align-items: flex-end;
+}
+
+.projectEditButtonDiv button {
+    width: 7vw;
+    height: 4.5vh;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: none;
+    color: #fff;
+    background: #36416A;
+    border-radius: 29px;
+    cursor: pointer;
+}
+
+.projectTagsDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.projectTagsDiv p {
+    font-weight: 500;
+}
+
+.upVoteCountTag {
+    width: 3vw;
+    height: 7.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5vh;
+    background: #C7CBD6;
+    border-radius: 15.9836px;
+}
+
+.commentCountTag {
+    display: flex;
+    align-items: center;
+    gap: .5vw;
+}

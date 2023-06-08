@@ -1,0 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans';
+}
+
+header {
+    width: 100%;
+    height: 9.5vh;
+    background: #36416A;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3.5vw;
+}
+
+.logo {
+    color: #fff;
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 43px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+/* Sign In */
+
+.authButton {
+    display: flex;
+    gap: 1vw;
+}
+
+.authButton button {
+    width: 6vw;
+    height: 5vh;
+    background: transparent;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 7px;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 144.02%;
+    border: 2px solid #fff;
+
+}
+
+.authButton button:hover {
+    background: #fff;
+    color: #36416A;
+    font-weight: 600;
+    font-size: 18px;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+/* Logout*/
+
+.authDetail {
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+    color: #fff;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 144.02%;
+}
+
+.authDetail button {
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 144.02%;
+    background: transparent;
+    border: none;
+}
+
+.authDetail button:hover {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid #fff;
+}
+
+.authDetail img {
+    width: 50px;
+    height: 50px;
+}

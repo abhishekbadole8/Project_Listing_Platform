@@ -1,0 +1,64 @@
+.projectBoxDown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5vh;
+}
+
+.projectBoxDown input {
+    width: 100%;
+    height: 5.5vh;
+    padding-left: 1vw;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #ABABAB;
+    background: #FFFFFF;
+    border: 3px solid #C7CBD6;
+    border-radius: 43px;
+}
+
+
+.commentList {
+    width: 100%;
+    height: 15vh;
+    font-weight: 400;
+    color: #999999;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.commentList::-webkit-scrollbar {
+    width: 15px;
+    border-radius: 25px;
+}
+
+.commentList::-webkit-scrollbar-track {
+    background: #FDFDFD;
+    border-radius: 25px;
+}
+
+.commentList::-webkit-scrollbar-thumb {
+    background: #C7CBD6;
+    border-radius: 25px;
+}
+
+.commentList li a {
+    width: 15px;
+    height: 14px;
+    background: #36416A;
+    border-radius: 50%;
+    display: block;
+    margin-top: .75vh;
+}
+
+.commentList li p {
+    width: 95%;
+}
+
+.commentList li {
+    margin-bottom: 1vh;
+    display: flex;
+    gap: .75vw;
+    line-height: 147.2%;
+    align-items: flex-start;
+}
