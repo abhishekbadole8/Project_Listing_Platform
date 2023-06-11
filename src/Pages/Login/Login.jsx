@@ -5,6 +5,7 @@ import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import apiClient from "../../components/apiClient/apiClient"
 
 function Login() {
     const navigate = useNavigate()
@@ -16,8 +17,8 @@ function Login() {
 
     const fetchLogin = async (email, password) => {
         try {
-            const response = await axios.post(
-                "http://localhost:5000/api/user/login",
+            const response = await apiClient.post(
+                "/api/user/login",
                 {
                     email,
                     password,

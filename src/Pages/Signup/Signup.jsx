@@ -6,10 +6,11 @@ import { IoMdLock } from "react-icons/io";
 import { TfiMobile } from "react-icons/tfi";
 import { FaUserAlt } from "react-icons/fa";
 import axios from "axios";
+import apiClient from "../../components/apiClient/apiClient"
 
 function SignUp() {
 
-    const navigate  = useNavigate()
+    const navigate = useNavigate()
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [mobile, setMobile] = useState('')
@@ -17,8 +18,8 @@ function SignUp() {
 
     const fetchRegister = async (name, email, mobile, password) => {
         try {
-            const response = await axios.post(
-                "http://localhost:5000/api/user/register",
+            const response = await apiClient.post(
+                "/api/user/register",
                 {
                     name,
                     email,

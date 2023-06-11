@@ -3,6 +3,7 @@ import styles from './Comment.module.css'
 import { UserContext } from '../../UserContext'
 import button from "../../assets/button.svg"
 import axios from 'axios'
+import apiClient from "../apiClient/apiClient"
 
 function Comment({ productId, comments }) {
 
@@ -21,8 +22,8 @@ function Comment({ productId, comments }) {
     const addComment = async () => {
 
         try {
-            const response = await axios.patch(
-                `http://localhost:5000/api/product/${productId}`,
+            const response = await apiClient.patch(
+                `/api/product/${productId}`,
                 {
                     comments: [...comments, inputProductValue[productId]?.comments]
                 }

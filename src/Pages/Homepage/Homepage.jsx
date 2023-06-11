@@ -12,6 +12,7 @@ import Filter from '../../components/Filter/Filter';
 import { UserContext } from '../../UserContext';
 import axios from 'axios';
 import jwt_decode from "jwt-decode"
+import apiClient from "../../components/apiClient/apiClient"
 
 function Homepage() {
 
@@ -36,7 +37,7 @@ function Homepage() {
     // Fetch Products
     const getProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/product/all")
+            const response = await apiClient.get("/api/product/all")
             if (response.status === 200) {
                 const data = await response.data
                 if (response.status === 200) {
@@ -76,7 +77,7 @@ function Homepage() {
             const productId = clickedProduct._id;
             const updatedVoteCount = clickedProduct.vote + 1;
 
-            const res = await axios.patch(`http://localhost:5000/api/product/${productId}`, {
+            const res = await apiClient.patch(`/api/product/${productId}`, {
                 vote: updatedVoteCount
             });
 

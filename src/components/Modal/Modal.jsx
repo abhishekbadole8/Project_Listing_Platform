@@ -7,6 +7,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { UserContext } from '../../UserContext';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import apiClient from "../apiClient/apiClient"
 
 function Modal() {
     const navigate = useNavigate()
@@ -32,8 +33,8 @@ function Modal() {
     // POST Login /api/user/login
     const fetchLogin = async (email, password) => {
         try {
-            const response = await axios.post(
-                "http://localhost:5000/api/user/login",
+            const response = await apiClient.post(
+                "/api/user/login",
                 {
                     email,
                     password
@@ -76,8 +77,8 @@ function Modal() {
     //POST Create Product /api/product/add
     const addProduct = async (productData, user_token) => {
         try {
-            const response = await axios.post(
-                "http://localhost:5000/api/product/add",
+            const response = await apiClient.post(
+                "/api/product/add",
                 {
                     ...productData
                 }, {
