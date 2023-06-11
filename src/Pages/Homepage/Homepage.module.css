@@ -6,6 +6,7 @@
 
 .bodyMain {
     display: flex;
+    padding-bottom: 2vh;
 }
 
 .bodyContainer {
@@ -20,13 +21,13 @@
 }
 
 .heading {
-    width: 50%;
-    height: 50vh;
+    /* width: 50%;
+    height: 50%; */
     font-family: 'DM Sans';
     font-style: normal;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     gap: 1.5vh;
 }
@@ -50,57 +51,6 @@
     display: flex;
     justify-content: space-between;
     padding: 3.5vw;
-
-}
-
-/* Filter Container */
-.filterContainer {
-    width: 18vw;
-    display: flex;
-    flex-direction: column;
-    gap: 3vh;
-}
-
-.filterUpBox {
-    width: 100%;
-    height: 18vh;
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: 500;
-    padding-top: 7vh;
-    background: #36416A;
-    border-radius: 14.8793px;
-    padding-left: 3vw;
-}
-
-.filterDownBox {
-    /* width: 100%; */
-    width: 18vw;
-    display: flex;
-    gap: 1vw;
-    flex-wrap: wrap;
-    padding: 2.5vh 2vw;
-    box-shadow: 0px 0px 17.5051px rgba(0, 0, 0, 0.15);
-    border-radius: 11.3783px;
-}
-
-.filterTags {
-    cursor: pointer;
-    width: 6.45vw;
-    height: 4.75vh;
-    font-size: 1.1rem;
-    font-weight: 400;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(54, 65, 106, 0.15);
-    border-radius: 25.0428px;
-}
-
-.filterTags:hover {
-    color: #fff;
-    background: #000;
-    background: #36416A;
 }
 
 /* Project Container */
@@ -154,7 +104,7 @@
 
 .projectsTopBarRight button {
     cursor: pointer;
-    min-width: 10vw;
+    width: 10vw;
     /* width: 10vw; */
     height: 5vh;
     color: #fff;
@@ -166,7 +116,6 @@
 }
 
 /* boxes Container */
-
 .productsBoxContainer {
     width: 70vw;
     height: 100%;
@@ -222,7 +171,7 @@
 }
 
 .projectType p {
-    width: 5.5vw;
+    min-width: 5.65vw;
     height: 4vh;
     display: flex;
     justify-content: center;
@@ -248,8 +197,10 @@
 }
 
 .projectEditButtonDiv {
+    /* width: 100%; */
     display: flex;
-    align-items: flex-end;
+    /* align-items: flex-end; */
+
 }
 
 .projectEditButtonDiv button {
@@ -284,10 +235,117 @@
     gap: .5vh;
     background: #C7CBD6;
     border-radius: 15.9836px;
+    cursor: pointer;
 }
 
 .commentCountTag {
     display: flex;
     align-items: center;
     gap: .5vw;
+}
+
+@media only screen and (max-width: 850px) {
+    .posterCotainer {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    .posterCotainer img {
+        width: 100%;
+        height: auto;
+    }
+
+    .heading {
+        /* margin: auto 5vw; */
+        gap: 2vh;
+        padding: 0 3.5vw;
+    }
+
+    .heading h3 {
+        font-size: 1.5rem;
+        margin-top: 0;
+    }
+
+    .heading p {
+        line-height: 140%;
+    }
+
+    /* main start here */
+    .mainContainer {
+        flex-wrap: wrap;
+        padding: 0;
+    }
+
+    /* Projects Container */
+    .projectsContainer {
+        padding: 0 3.5vw;
+     
+    }
+
+    /* Top Bar Stert here*/
+    .projectsTopBar {
+        /* width: 100%; */
+        padding: 1vw;
+    }
+
+    .projectsTopBarLeft {
+        gap: 0;
+    }
+
+    .projectsTopBarLeft h5 {
+        font-size: .9rem;
+    }
+
+    /* .sortDiv select {
+        display: none;
+    } */
+
+    /* Boxes Container */
+    .productsBoxContainer {
+        width: 100%;
+        gap: 1.5vh;
+    }
+
+    /* Single Box */
+    .projectsBox {
+        padding: 1.5vh 1.6vw;
+    }
+
+    .projectLogo img {
+        width: 14.5vw;
+        margin-top: .5vh;
+    }
+
+    .jobDetails p {
+        font-weight: 400;
+        line-height: 120%;
+    }
+
+    .typeDetails {
+        gap: 3.5vw;
+    }
+
+    /* Type Tags */
+    .projectType p {
+        width: 100%;
+        font-size: 1em;
+    }
+
+    .projectComments p {
+        display: none;
+    }
+
+    .projectEditButtonDiv button {
+        width: 15vw;
+        font-size: 1em;
+    }
+
+    .upVoteCountTag {
+        width: 100%;
+        padding: 0 1.5vw;
+    }
+
+    .commentCountTag {
+        gap: 1vw;
+    }
 }

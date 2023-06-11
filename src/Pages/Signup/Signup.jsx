@@ -1,25 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css"
 import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
 import { TfiMobile } from "react-icons/tfi";
 import { FaUserAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function SignUp() {
 
-    const navigate = useNavigate()
-    const navigateLogin = () => {
-        navigate('/login')
-    }
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const navigate  = useNavigate()
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useState({})
 
     const fetchRegister = async (name, email, mobile, password) => {
         try {
@@ -34,11 +28,10 @@ function SignUp() {
             );
             if (response) {
                 const user = await response.data;
-                console.log(user);
-                setUser(user);
-                setIsLoggedIn(true)
+                if (user) {
+                    navigate('/login')
+                }
             }
-
         } catch (error) {
             console.log("Register Error", error);
         }
@@ -57,26 +50,26 @@ function SignUp() {
                 <div className={styles.AuthPageBox}>
 
                     <div className={styles.name}>
-                        <FaUserAlt />
+                        <FaUserAlt size={21} />
                         <input type="name" value={name} onChange={(e) => setName(e.target.value)} placeholder='Name' />
                     </div>
 
                     <div className={styles.email}>
-                        <LuMail />
+                        <LuMail size={21} />
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                     </div>
 
                     <div className={styles.mobile}>
-                        <TfiMobile />
+                        <TfiMobile size={23} />
                         <input type="tele" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder='Mobile' />
                     </div>
 
                     <div className={styles.password}>
-                        <IoMdLock />
+                        <IoMdLock size={25} />
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                     </div>
 
-                    <p>Already have an account? <span onClick={navigateLogin}>Login</span> </p>
+                    <p>Already have an account? <span onClick={() => navigate('/login')}>Login</span> </p>
 
                     <div className={styles.loginButton}>
                         <button className={styles.loginBtn} onClick={() => fetchRegister(name, email, mobile, password)}>Sign Up</button>

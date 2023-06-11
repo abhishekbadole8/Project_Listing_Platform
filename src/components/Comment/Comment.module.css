@@ -17,6 +17,23 @@
     border-radius: 43px;
 }
 
+.commentInputDiv {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.commentInputDiv img {
+    position: absolute;
+    margin-right: 1vw;
+
+}
+
+.commentInputDiv img:hover {
+
+    opacity: .5;
+    cursor: pointer;
+}
 
 .commentList {
     width: 100%;
@@ -61,4 +78,26 @@
     gap: .75vw;
     line-height: 147.2%;
     align-items: flex-start;
+}
+
+@media only screen and (max-width:850px) {
+    .projectBoxDown{
+        padding: 0 2vw;
+    }
+    .projectBoxDown input{
+        padding: 0 4vw;
+    }
+    .commentInputDiv img{
+        margin-right: 3vw;
+    }
+    .commentList::-webkit-scrollbar {
+        width: 12px;
+    }
+    .commentList li a {
+        width: 10px;
+        height: 10px;
+    }
+    .commentList li{
+        gap: 2vw;
+    }
 }

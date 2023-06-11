@@ -10,6 +10,7 @@
 }
 
 .modalContainer {
+    position: relative;
     width: 55vw;
     height: 60vh;
     /* height: 100%; */
@@ -43,6 +44,7 @@
     border: none;
     border-bottom: 1px solid #AAAAAA;
 }
+
 .inputStyle {
     width: 100%;
     display: flex;
@@ -65,7 +67,7 @@
     background: #36416A;
     border-radius: 27.907px;
     border: none;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 /* Right Side */
@@ -91,9 +93,6 @@
     line-height: 37px;
 }
 
-
-
-
 /* SignUP */
 .modalLeft p {
     font-weight: 500;
@@ -101,10 +100,48 @@
     margin: 1vh 1.5vw;
     font-size: 1.1rem;
 }
+
 .modalLeft span {
     text-decoration-line: underline;
     color: #36416A;
     font-size: 1.1rem;
     margin-left: .5vw;
     cursor: pointer;
+}
+
+@media only screen and (max-width:850px) {
+
+    .modalContainer {
+        width: 100%;
+        height: 55%;
+        justify-content: center;
+    }
+
+    .modalLeft {
+        width: 85%;
+        padding: 3vh 7vw;
+        box-shadow: 0px 4.34568px 39.1111px rgba(0, 0, 0, 0.25);
+        border-radius: 10.8642px;
+        gap: 2vh;
+    }
+
+    .modalRight {
+        display: none;
+    }
+    .modalLeft h4{
+        margin-bottom: 0;
+        font-weight: 700;
+        padding-left: 1vw;
+    }
+    .modalLeft input {
+        padding-left: 1vw;
+    }
+
+    .submitButton {
+        justify-content: center;
+    }
+
+    .submitButton button {
+        width: 90%;
+    }
 }

@@ -1,0 +1,33 @@
+import { useEffect } from 'react';
+import styles from './Filter.module.css'
+
+function Filter({ handleCategoryClick, selectedCategory, categories }) {
+
+    //Creating unique Category Array
+    const uniqueCategories = [...new Set(categories.flat())]
+
+    return (
+        <div className={styles.filterContainer} >
+
+            {/* Up */}
+            <div className={styles.filterUpBox}>
+                <h4>Feedback</h4>
+                <p>Apply Filter</p>
+            </div>
+
+            {/* Down */}
+            <div className={styles.filterDownBox}>
+
+                <p className={`${styles.filterTags}  ${selectedCategory === '' && styles.active}`} onClick={() => handleCategoryClick('')}>All</p>
+
+                {uniqueCategories.map((category) => {
+                    return <p key={category} className={`${styles.filterTags} ${selectedCategory === category && styles.active}`}
+                        onClick={() => handleCategoryClick(category)}>{category}</p>
+                })}
+
+            </div>
+        </div>
+    )
+}
+
+export default Filter;

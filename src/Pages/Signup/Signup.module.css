@@ -93,3 +93,50 @@
     border: none;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 850px) {
+    .AuthPagecontainer {
+        align-items: center;
+        padding-top: 11vh;
+        gap: 1.3vh;
+    }
+
+    .AuthPageBox {
+        width: 85vw;
+        height: 55vh;
+        padding: 5vw 7vw;
+        gap: 2.65vh;
+    }
+
+    .AuthPageBox p {
+        font-size: 1.2rem;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 1.2vh;
+        margin-left: 4vw;
+    }
+
+    .AuthPageBox input {
+        padding-left: 2.5vw;
+    }
+
+    .headingBox {
+        padding: 0 10vw 5vh 11vw;
+    }
+
+    .headingBox h2 {
+        font-size: 2.55rem;
+    }
+
+    .loginButton button {
+        width: 100%;
+        margin: auto 5%;
+    }
+
+    .name,
+    .email,
+    .mobile,
+    .password {
+        gap: 6.5%;
+    }
+}

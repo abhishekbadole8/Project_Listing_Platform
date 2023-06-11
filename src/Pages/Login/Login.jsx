@@ -1,21 +1,18 @@
+import { useContext, useState } from 'react';
+import { UserContext } from '../../UserContext';
 import styles from './Login.module.css'
 import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-
     const navigate = useNavigate()
-    const navigateSignup = () => {
-        navigate('/signup')
-    }
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const { local, setLocal,setAddProductModal } = useContext(UserContext)
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useState({})
 
     const fetchLogin = async (email, password) => {
         try {
@@ -28,8 +25,10 @@ function Login() {
             );
             if (response.status === 200) {
                 const user = await response.data;
-                setUser(user);
-                setIsLoggedIn(true)
+                if (user) {
+                    localStorage.setItem('user_token', JSON.stringify(user))
+                    navigate('/homepage')
+                }
             }
         } catch (error) {
             console.log("Login Error:", error);
@@ -49,16 +48,16 @@ function Login() {
                 <div className={styles.AuthPageLoginBox}>
 
                     <div className={styles.email}>
-                        <LuMail />
+                        <LuMail size={22} />
                         <input type="email" placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
                     <div className={styles.password}>
-                        <IoMdLock />
+                        <IoMdLock size={25}/>
                         <input type="password" placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
-                    <p>Dont have an account? <span onClick={navigateSignup}>SignUp</span></p>
+                    <p>Dont have an account? <span onClick={() => navigate('/signup')}>SignUp</span></p>
 
                     <div className={styles.loginButton}>
                         <button className={styles.loginBtn} onClick={() => fetchLogin(email, password)}>Log in</button>
