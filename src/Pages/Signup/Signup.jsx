@@ -5,12 +5,12 @@ import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
 import { TfiMobile } from "react-icons/tfi";
 import { FaUserAlt } from "react-icons/fa";
-import axios from "axios";
 import apiClient from "../../components/apiClient/apiClient"
 
 function SignUp() {
 
     const navigate = useNavigate()
+    
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [mobile, setMobile] = useState('')

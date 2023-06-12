@@ -97,8 +97,8 @@
 @media only screen and (max-width: 850px) {
     .AuthPagecontainer {
         align-items: center;
-        padding-top: 11vh;
-        gap: 1.3vh;
+        padding-top: 16%;
+        gap: 1vh;
     }
 
     .AuthPageBox {
@@ -117,7 +117,7 @@
     }
 
     .AuthPageBox input {
-        padding-left: 2.5vw;
+        padding-left: 2vw;
     }
 
     .headingBox {

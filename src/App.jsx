@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserContext } from "./UserContext";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/Signup/Signup";
 import Homepage from "./Pages/Homepage/Homepage";
@@ -27,9 +27,12 @@ function App() {
       }}>
       <Router>
         <Routes>
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<SignUp />} />
+
+          <Route exact path="/" element={<Homepage />} />
+          <Route path="/login" element={!user_token ? <Login /> : <Navigate to={'/'} />} />
+          <Route path="/signup" element={!user_token ? <SignUp /> : <Navigate to={'/'} />} />
           <Route exact index path="/homepage" element={<Homepage />} />
+
 
         </Routes>
       </Router>

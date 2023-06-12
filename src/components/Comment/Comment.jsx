@@ -1,8 +1,7 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import styles from './Comment.module.css'
 import { UserContext } from '../../UserContext'
 import button from "../../assets/button.svg"
-import axios from 'axios'
 import apiClient from "../apiClient/apiClient"
 
 function Comment({ productId, comments }) {
@@ -20,7 +19,6 @@ function Comment({ productId, comments }) {
     }
 
     const addComment = async () => {
-
         try {
             const response = await apiClient.patch(
                 `/api/product/${productId}`,
@@ -30,7 +28,7 @@ function Comment({ productId, comments }) {
             );
             if (response.status === 200) {
                 const data = await response.data;
-                console.log(data);
+                setInputProductValue({})
             }
         } catch (error) {
             console.log('Error In Add Product ', error);
@@ -56,8 +54,7 @@ function Comment({ productId, comments }) {
                                 <p>{com}</p>
                             </li>
                         )
-                    })
-                    }
+                    })}
                 </ul>
 
             </div>

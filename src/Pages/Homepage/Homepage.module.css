@@ -218,7 +218,7 @@
 .projectTagsDiv {
     display: flex;
     flex-direction: column;
-    gap: 3vh;
+    justify-content: space-around;
 }
 
 .projectTagsDiv p {
@@ -245,6 +245,7 @@
 }
 
 @media only screen and (max-width: 850px) {
+
     .posterCotainer {
         flex-wrap: wrap;
         gap: 0;
@@ -279,27 +280,37 @@
     /* Projects Container */
     .projectsContainer {
         padding: 0 3.5vw;
-     
     }
 
     /* Top Bar Stert here*/
     .projectsTopBar {
-        /* width: 100%; */
+        width: 100%;
         padding: 1vw;
+        /* display: flex;
+        justify-content: space-between; */
     }
 
     .projectsTopBarLeft {
+        width: 50%;
         gap: 0;
+        display: flex;
+        justify-content: space-between;
     }
 
     .projectsTopBarLeft h5 {
         font-size: .9rem;
     }
 
-    /* .sortDiv select {
+    .sortDiv select {
         display: none;
-    } */
+    }
 
+    .projectsTopBarRight {
+        width: 35%;
+    }
+    .projectsTopBarRight button{
+        width: 100%;
+    }
     /* Boxes Container */
     .productsBoxContainer {
         width: 100%;
@@ -315,6 +326,9 @@
         width: 14.5vw;
         margin-top: .5vh;
     }
+    .jobDetailsInfo{
+        justify-content: space-evenly;
+    }
 
     .jobDetails p {
         font-weight: 400;
@@ -328,7 +342,9 @@
     /* Type Tags */
     .projectType p {
         width: 100%;
-        font-size: 1em;
+        height: 100%;
+        padding: 0 1.3vw;
+        font-size: .9em;
     }
 
     .projectComments p {
@@ -339,7 +355,9 @@
         width: 15vw;
         font-size: 1em;
     }
-
+    .projectTagsDiv {
+        justify-content: space-between;
+    }
     .upVoteCountTag {
         width: 100%;
         padding: 0 1.5vw;
@@ -347,5 +365,8 @@
 
     .commentCountTag {
         gap: 1vw;
+    }
+    .commentCountTag p{
+        font-size: 1.05rem;
     }
 }

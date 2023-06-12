@@ -5,12 +5,10 @@ import { IoMdLock } from "react-icons/io";
 import { TfiMobile } from "react-icons/tfi";
 import { FaUserAlt } from "react-icons/fa";
 import { UserContext } from '../../UserContext';
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
 import apiClient from "../apiClient/apiClient"
 
 function Modal() {
-    const navigate = useNavigate()
+    
     const { loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, user_token, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
 
     const [isModalOpen, setIsModalOpen] = useState(false) // Modal Close State
@@ -56,8 +54,8 @@ function Modal() {
     //POST Create New User
     const fetchRegister = async (name, email, mobile, password) => {
         try {
-            const response = await axios.post(
-                "http://localhost:5000/api/user/register",
+            const response = await apiClient.post(
+                "/api/user/register",
                 {
                     name, email, mobile, password
                 }
@@ -115,12 +113,12 @@ function Modal() {
                                     <h4>Log in to continue</h4>
 
                                     <div className={styles.inputStyle}>
-                                        <LuMail />
+                                        <LuMail size={19}/>
                                         <input type="email" name="email" value={user.email} placeholder='Email' onChange={handelUserInput} />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <IoMdLock />
+                                        <IoMdLock size={22}/>
                                         <input type="password" name="password" value={user.password} placeholder='Password' onChange={handelUserInput} />
                                     </div>
 
@@ -135,22 +133,22 @@ function Modal() {
                                     <h4>Signup to continue</h4>
 
                                     <div className={styles.inputStyle}>
-                                        <FaUserAlt />
+                                        <FaUserAlt size={19}/>
                                         <input type="text" name="name" value={user.name} onChange={handelUserInput} placeholder='Name' />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <LuMail />
+                                        <LuMail size={19}/>
                                         <input type="email" name="email" value={user.email} onChange={handelUserInput} placeholder='Email' />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <TfiMobile />
+                                        <TfiMobile size={20}/>
                                         <input type="tele" name="mobile" value={user.mobile} onChange={handelUserInput} placeholder='Mobile' />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <IoMdLock />
+                                        <IoMdLock size={22}/>
                                         <input type="password" name="password" value={user.password} onChange={handelUserInput} placeholder='Password' />
                                     </div>
 

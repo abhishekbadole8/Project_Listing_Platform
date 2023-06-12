@@ -1,16 +1,12 @@
-import { useContext, useState } from 'react';
-import { UserContext } from '../../UserContext';
+import { useState } from 'react';
 import styles from './Login.module.css'
 import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import apiClient from "../../components/apiClient/apiClient"
 
 function Login() {
     const navigate = useNavigate()
-
-    const { local, setLocal,setAddProductModal } = useContext(UserContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -54,7 +50,7 @@ function Login() {
                     </div>
 
                     <div className={styles.password}>
-                        <IoMdLock size={25}/>
+                        <IoMdLock size={25} />
                         <input type="password" placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                     </div>
 

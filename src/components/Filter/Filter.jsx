@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import styles from './Filter.module.css'
 
 function Filter({ handleCategoryClick, selectedCategory, categories }) {
@@ -15,11 +14,13 @@ function Filter({ handleCategoryClick, selectedCategory, categories }) {
                 <p>Apply Filter</p>
             </div>
 
+            <h5>Filters:</h5>
+            
             {/* Down */}
             <div className={styles.filterDownBox}>
 
                 <p className={`${styles.filterTags}  ${selectedCategory === '' && styles.active}`} onClick={() => handleCategoryClick('')}>All</p>
-
+               
                 {uniqueCategories.map((category) => {
                     return <p key={category} className={`${styles.filterTags} ${selectedCategory === category && styles.active}`}
                         onClick={() => handleCategoryClick(category)}>{category}</p>

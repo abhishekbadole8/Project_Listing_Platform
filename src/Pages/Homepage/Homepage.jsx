@@ -10,7 +10,6 @@ import Comment from '../../components/Comment/Comment';
 import Modal from '../../components/Modal/Modal';
 import Filter from '../../components/Filter/Filter';
 import { UserContext } from '../../UserContext';
-import axios from 'axios';
 import jwt_decode from "jwt-decode"
 import apiClient from "../../components/apiClient/apiClient"
 
@@ -31,8 +30,6 @@ function Homepage() {
     const userId = decodedToken ? decodedToken.id : null // Get User Id from Token
 
     const [editProduct, setEditProduct] = useState(null) // Product to edit
-
-
 
     // Fetch Products
     const getProducts = async () => {
@@ -174,158 +171,161 @@ function Homepage() {
                     <div className={styles.heading}>
                         <h3>Add your products and give your valuable feedback</h3>
                         <p>Easily give your feedback in a matter of minutes. Access your audience on all platforms.
-                            <br/>Observe result manually in real time</p>
+                            <br />Observe result manually in real time</p>
+                    </div>
                 </div>
-            </div>
 
-            {/* DrownContainer */}
-            <div className={styles.mainContainer}>
+                {/* DrownContainer */}
+                <div className={styles.mainContainer}>
 
-                {/* Filter Container */}
-                <Filter handleCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} categories={product ? product.map((pro) => pro.category) : []} />
+                    {/* Filter Container */}
+                    <Filter handleCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} categories={product ? product.map((pro) => pro.category) : []} />
 
-                {/* Project Container */}
-                <div className={styles.projectsContainer}>
+                    {/* Project Container */}
+                    <div className={styles.projectsContainer}>
 
-                    {/* Top Bar */}
-                    <div className={styles.projectsTopBar}>
+                        {/* Top Bar */}
+                        <div className={styles.projectsTopBar}>
 
-                        <div className={styles.projectsTopBarLeft}>
-                            <h5>{totalComments} Suggestions</h5>
+                            <div className={styles.projectsTopBarLeft}>
+                                <h5>{totalComments} Suggestions</h5>
 
-                            <div className={styles.sortDiv}>
+                                <div className={styles.sortDiv}>
 
-                                <p>Sort by:</p>
-                                <select name="vote" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
-                                    <option value="vote" >Upvotes</option>
-                                    <option value="comment">Comments</option>
-                                </select>
+                                    <p>Sort by:</p>
+                                    <select name="vote" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                                        <option value="vote" >Upvotes</option>
+                                        <option value="comment">Comments</option>
+                                    </select>
 
+                                </div>
+
+                            </div>
+
+                            {/* Add Product Button */}
+                            <div className={styles.projectsTopBarRight}>
+                                {user_token ?
+                                    <button onClick={() => setAddProductModal(true)}>+ Add Product</button> :
+                                    <button onClick={() => setSignupModal(true)}>+ Add Product</button>
+                                }
                             </div>
 
                         </div>
 
-                        {/* Add Product Button */}
-                        <div className={styles.projectsTopBarRight}>
-                            {user_token ?
-                                <button onClick={() => setAddProductModal(true)}>+ Add Product</button> :
-                                <button onClick={() => setSignupModal(true)}>+ Add Product</button>
-                            }
-                        </div>
+                        {/* Product Boxs Container */}
+                        <div className={styles.productsBoxContainer} >
 
-                    </div>
+                            {(product !== undefined) ?
+                                //Sort
+                                sortedProducts.map((pro) => {
+                                    
+                                    const { _id, user_id, title, description, category, comments, vote } = pro
+                                    const isActive = _id === clickedProductId
 
-                    {/* Product Boxs Container */}
-                    <div className={styles.productsBoxContainer} >
+                                    return (
+                                        <div className={styles.projectsBox} key={_id} >
 
-                        {(product !== undefined) ?
-                            //Sort
-                            sortedProducts.map((pro) => {
-                                const { _id, user_id, title, description, category, comments, vote } = pro
-                                const isActive = _id === clickedProductId
+                                            <div className={styles.projectBoxUp}>
 
-                                return (
-                                    <div className={styles.projectsBox} key={_id} >
+                                                {/* Box Left */}
+                                                <div className={styles.projectDetailsBoxLeft}>
 
-                                        <div className={styles.projectBoxUp}>
-
-                                            {/* Box Left */}
-                                            <div className={styles.projectDetailsBoxLeft}>
-
-                                                <div className={styles.projectLogo}>
-                                                    <img src={cred} alt="cred-logo" id={styles.projectLogo} />
-                                                </div>
-
-                                                <div className={styles.jobDetailsInfo}>
-
-                                                    {/* Job Detail Layer 1 */}
-                                                    <h5>{title}</h5>
-
-                                                    {/* Job Detail Layer 2 */}
-                                                    <div className={styles.jobDetails}>
-                                                        <p>{description}</p>
+                                                    <div className={styles.projectLogo}>
+                                                        <img src={cred} alt="cred-logo" id={styles.projectLogo} />
                                                     </div>
 
-                                                    {/* Job Detail Layer 3 */}
-                                                    <div className={styles.typeDetails}>
+                                                    <div className={styles.jobDetailsInfo}>
 
-                                                        {category.map((cat, i) => {
-                                                            return (
-                                                                <div className={styles.projectType} key={i}>
-                                                                    <p>{cat}</p>
-                                                                </div>)
-                                                        })}
+                                                        {/* Job Detail Layer 1 */}
+                                                        <h5>{title}</h5>
 
-                                                        <div className={styles.projectComments} onClick={() => filterClickBoxId(_id)}>
-                                                            <TbMessage2 size={25} />
-
-                                                            {/* Comment Button Here */}
-                                                            <p >Comments</p>
-                                                            {/* <p onClick={() => filterClickBoxId(_id)}>Comments</p> */}
+                                                        {/* Job Detail Layer 2 */}
+                                                        <div className={styles.jobDetails}>
+                                                            <p>{description}</p>
                                                         </div>
 
-                                                        {/* Edit Button */}
-                                                        {user_token && user_id === userId &&
-                                                            (<div className={styles.projectEditButtonDiv}>
+                                                        {/* Job Detail Layer 3 */}
+                                                        <div className={styles.typeDetails}>
 
-                                                                <button onClick={() => handelEditClick(pro)}>Edit</button>
+                                                            {category.map((cat, i) => {
+                                                                return (
+                                                                    <div className={styles.projectType} key={i}>
+                                                                        <p>{cat}</p>
+                                                                    </div>)
+                                                            })}
 
-                                                            </div>)}
+                                                            <div className={styles.projectComments} onClick={() => filterClickBoxId(_id)}>
+                                                                <TbMessage2 size={25} />
+
+                                                                {/* Comment Button Here */}
+                                                                <p>Comments</p>
+                                                            </div>
+
+                                                            {/* Edit Button */}
+                                                            {user_token && user_id === userId &&
+                                                                (<div className={styles.projectEditButtonDiv}>
+
+                                                                    <button onClick={() => handelEditClick(pro)}>Edit</button>
+
+                                                                </div>)}
+
+                                                        </div>
 
                                                     </div>
 
                                                 </div>
 
-                                            </div>
+                                                {/* Box Right */}
+                                                <div className={styles.projectDetailsBoxRight}>
 
-                                            {/* Box Right */}
-                                            <div className={styles.projectDetailsBoxRight}>
-
-                                                {/* Edit Button */}
-                                                {/* {user_token && user_id === userId &&
+                                                    {/* Edit Button */}
+                                                    {/* {user_token && user_id === userId &&
                                                         (<div className={styles.projectEditButtonDiv}>
 
                                                             <button onClick={() => handelEditClick(pro)}>Edit</button>
 
                                                         </div>)} */}
 
-                                                <div className={styles.projectTagsDiv}>
+                                                    <div className={styles.projectTagsDiv}>
 
-                                                    <div className={styles.upVoteCountTag} onClick={() => filterClickBoxId(_id)}>
-                                                        <MdKeyboardArrowUp size={22} onClick={(e) => handelVoteCount(e, _id)} />
-                                                        <p >{!vote ? 0 : vote}</p>
-                                                    </div>
+                                                        <div className={styles.upVoteCountTag} onClick={() => filterClickBoxId(_id)}>
+                                                            <MdKeyboardArrowUp size={22} onClick={(e) => handelVoteCount(e, _id)} />
+                                                            <p >{!vote ? 0 : vote}</p>
+                                                        </div>
 
-                                                    <div className={styles.commentCountTag}>
-                                                        <p>{comments.length}</p>
-                                                        <BsChatRightFill size={18} />
+                                                        <div className={styles.commentCountTag}>
+                                                            <p>{comments.length}</p>
+                                                            <BsChatRightFill size={18} />
+                                                        </div>
+
                                                     </div>
 
                                                 </div>
 
                                             </div>
 
-                                        </div>
+                                            {/* Comments Toggle*/}
+                                            {isActive && <Comment productId={_id} comments={comments} />}
 
-                                        {/* Comments Toggle*/}
-                                        {isActive && <Comment productId={_id} comments={comments} />}
+                                        </div>)
+                                }) : "Loading"
+                            }
 
-                                    </div>)
-                            }) : "Loading"
-                        }
+                        </div>
 
-                    </div>
+                    </div >
 
                 </div >
 
             </div >
 
-        </div >
+            {/* Modal Show If True */}
+            {loginModal && <Modal type='login' />}
 
-            {/* Modal Show If True */ }
-    { loginModal && <Modal type='login' /> }
-    { signupModal && <Modal type='signup' /> }
-    { addProductModal && (<Modal type='add-Product' />) }
+            {signupModal && <Modal type='signup' />}
+
+            {addProductModal && <Modal type='add-Product' />}
+
         </div >
 
     )
