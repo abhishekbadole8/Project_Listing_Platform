@@ -104,9 +104,7 @@
 
 .projectsTopBarRight button {
     cursor: pointer;
-    width: 10vw;
-    /* width: 10vw; */
-    height: 5vh;
+    padding: 1vh 1.5vw;
     color: #fff;
     font-weight: 500;
     font-size: 1.1rem;
@@ -257,7 +255,6 @@
     }
 
     .heading {
-        /* margin: auto 5vw; */
         gap: 2vh;
         padding: 0 3.5vw;
     }
@@ -286,8 +283,6 @@
     .projectsTopBar {
         width: 100%;
         padding: 1vw;
-        /* display: flex;
-        justify-content: space-between; */
     }
 
     .projectsTopBarLeft {
@@ -305,12 +300,10 @@
         display: none;
     }
 
-    .projectsTopBarRight {
-        width: 35%;
-    }
     .projectsTopBarRight button{
-        width: 100%;
+        padding: 1vh 1.5vw;        
     }
+
     /* Boxes Container */
     .productsBoxContainer {
         width: 100%;
