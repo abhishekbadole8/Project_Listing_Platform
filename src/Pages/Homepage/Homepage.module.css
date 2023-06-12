@@ -169,8 +169,7 @@
 }
 
 .projectType p {
-    min-width: 5.65vw;
-    height: 4vh;
+    padding: .8vh .9vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,10 +194,7 @@
 }
 
 .projectEditButtonDiv {
-    /* width: 100%; */
     display: flex;
-    /* align-items: flex-end; */
-
 }
 
 .projectEditButtonDiv button {
@@ -283,11 +279,12 @@
     .projectsTopBar {
         width: 100%;
         padding: 1vw;
+        
     }
 
     .projectsTopBarLeft {
-        width: 50%;
-        gap: 0;
+        /* width: 50%; */
+        gap: 4vw;
         display: flex;
         justify-content: space-between;
     }
@@ -297,9 +294,9 @@
     }
 
     .sortDiv select {
-        display: none;
+        width: 20px;
     }
-
+    
     .projectsTopBarRight button{
         padding: 1vh 1.5vw;        
     }
@@ -319,6 +316,7 @@
         width: 14.5vw;
         margin-top: .5vh;
     }
+
     .jobDetailsInfo{
         justify-content: space-evenly;
     }
@@ -329,14 +327,12 @@
     }
 
     .typeDetails {
-        gap: 3.5vw;
+        gap: 3vw;
     }
 
     /* Type Tags */
     .projectType p {
-        width: 100%;
-        height: 100%;
-        padding: 0 1.3vw;
+        padding: .6vh 1.7vw;
         font-size: .9em;
     }
 
