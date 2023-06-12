@@ -1,12 +1,12 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import styles from './Comment.module.css'
 import { UserContext } from '../../UserContext'
 import button from "../../assets/button.svg"
 import apiClient from "../apiClient/apiClient"
 
-function Comment({ productId, comments }) {
+function Comment({ productId, comments, getProducts }) {
 
-    const { inputProductValue, setInputProductValue } = useContext(UserContext)
+    const { inputProductValue, setInputProductValue, product } = useContext(UserContext)
 
     const handelComments = (e) => {
         setInputProductValue((prevValue) => ({
@@ -34,7 +34,9 @@ function Comment({ productId, comments }) {
             console.log('Error In Add Product ', error);
         }
     }
-
+    useEffect(() => {
+        getProducts()
+    }, [inputProductValue])
     // const fetchComments
     return (
         <>

@@ -8,8 +8,8 @@ import { UserContext } from '../../UserContext';
 import apiClient from "../apiClient/apiClient"
 
 function Modal() {
-    
-    const { loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, user_token, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
+
+    const { loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, userToken,setUserToken, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
 
     const [isModalOpen, setIsModalOpen] = useState(false) // Modal Close State
 
@@ -41,7 +41,8 @@ function Modal() {
             if (response.status === 200) {
                 const user = await response.data;
                 if (user) {
-                    localStorage.setItem('user_token', JSON.stringify(user))
+                    localStorage.setItem('userToken', JSON.stringify(user))
+                    setUserToken(eval(JSON.stringify(user)));
                     setLoginModal(false)
                     setUser({})
                 }
@@ -73,7 +74,7 @@ function Modal() {
     }
 
     //POST Create Product /api/product/add
-    const addProduct = async (productData, user_token) => {
+    const addProduct = async (productData, userToken) => {
         try {
             const response = await apiClient.post(
                 "/api/product/add",
@@ -81,19 +82,20 @@ function Modal() {
                     ...productData
                 }, {
                 headers: {
-                    Authorization: 'Bearer ' + user_token
+                    Authorization: 'Bearer ' + userToken
                 }
             }
             );
             if (response.status === 200) {
                 const data = await response.data;
                 setAddProductModal(false)
+                setInputProductValue({})
             }
         } catch (error) {
             console.log('Error In Add Product ', error);
         }
     }
-   
+
 
     useEffect(() => {
 
@@ -113,12 +115,12 @@ function Modal() {
                                     <h4>Log in to continue</h4>
 
                                     <div className={styles.inputStyle}>
-                                        <LuMail size={19}/>
+                                        <LuMail size={19} />
                                         <input type="email" name="email" value={user.email} placeholder='Email' onChange={handelUserInput} />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <IoMdLock size={22}/>
+                                        <IoMdLock size={22} />
                                         <input type="password" name="password" value={user.password} placeholder='Password' onChange={handelUserInput} />
                                     </div>
 
@@ -133,22 +135,22 @@ function Modal() {
                                     <h4>Signup to continue</h4>
 
                                     <div className={styles.inputStyle}>
-                                        <FaUserAlt size={19}/>
+                                        <FaUserAlt size={19} />
                                         <input type="text" name="name" value={user.name} onChange={handelUserInput} placeholder='Name' />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <LuMail size={19}/>
+                                        <LuMail size={19} />
                                         <input type="email" name="email" value={user.email} onChange={handelUserInput} placeholder='Email' />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <TfiMobile size={20}/>
+                                        <TfiMobile size={20} />
                                         <input type="tele" name="mobile" value={user.mobile} onChange={handelUserInput} placeholder='Mobile' />
                                     </div>
 
                                     <div className={styles.inputStyle}>
-                                        <IoMdLock size={22}/>
+                                        <IoMdLock size={22} />
                                         <input type="password" name="password" value={user.password} onChange={handelUserInput} placeholder='Password' />
                                     </div>
 
@@ -186,7 +188,7 @@ function Modal() {
                                     </div>
 
                                     <div className={styles.submitButton}>
-                                        <button className={styles.loginBtn} onClick={() => addProduct(inputProductValue, user_token)}>+ Add Product</button>
+                                        <button className={styles.loginBtn} onClick={() => addProduct(inputProductValue, userToken)}>+ Add Product</button>
                                     </div>
 
                                 </>}

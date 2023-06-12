@@ -10,11 +10,13 @@ import apiClient from "../../components/apiClient/apiClient"
 function SignUp() {
 
     const navigate = useNavigate()
-    
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState('')
+
+    const [resMsg, setResMsg] = useState(null)
 
     const fetchRegister = async (name, email, mobile, password) => {
         try {
@@ -27,17 +29,19 @@ function SignUp() {
                     password,
                 }
             );
-            if (response) {
+            if (response.status === 200) {
                 const user = await response.data;
                 if (user) {
                     navigate('/login')
                 }
-            }
+            }            
         } catch (error) {
+            setResMsg(error.response?.data.message)
             console.log("Register Error", error);
         }
     }
 
+   
     return (
 
         <div className={styles.AuthPage}>
@@ -62,13 +66,15 @@ function SignUp() {
 
                     <div className={styles.mobile}>
                         <TfiMobile size={23} />
-                        <input type="tele" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder='Mobile' />
+                        <input type="tel"  value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder='Mobile' />
                     </div>
 
                     <div className={styles.password}>
                         <IoMdLock size={25} />
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                     </div>
+
+                    {resMsg && <label className={styles.errorMsg}>{resMsg}</label>}
 
                     <p>Already have an account? <span onClick={() => navigate('/login')}>Login</span> </p>
 

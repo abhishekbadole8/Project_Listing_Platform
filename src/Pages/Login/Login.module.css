@@ -49,6 +49,14 @@
     gap: 2.5vh;
 }
 
+/* Error Msg */
+.errorMsg {
+    color: red;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-left: 1.5vw;
+}
+
 .AuthPageLoginBox input {
     font-size: 1.3rem;
     width: 90%;
@@ -119,9 +127,11 @@
         margin-top: 1.2vh;
         margin-left: 4vw;
     }
-    .AuthPageLoginBox input{
+
+    .AuthPageLoginBox input {
         padding-left: 2vw;
     }
+
     .headingBox {
         padding: 0 10vw 5vh 11vw;
     }
@@ -139,5 +149,5 @@
     .password {
         gap: 6.5%;
     }
-   
-} 
+
+}

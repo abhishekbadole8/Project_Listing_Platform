@@ -142,8 +142,10 @@
     gap: 1.5vw;
 }
 
-.projectLogo {
-    height: 100%;
+.projectLogo img{
+    width: 4.65vw;
+    border-radius: 50%;
+
 }
 
 .jobDetailsInfo {

@@ -7,6 +7,13 @@
     align-items: center;
     font-family: 'DM Sans', sans-serif;
 }
+ /* Error Msg */
+ .errorMsg {
+    color: red;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-left: 1.5vw;
+}
 
 .AuthPagecontainer {
     height: 100%;
@@ -107,6 +114,8 @@
         padding: 5vw 7vw;
         gap: 2.65vh;
     }
+
+   
 
     .AuthPageBox p {
         font-size: 1.2rem;

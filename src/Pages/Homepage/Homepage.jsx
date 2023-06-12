@@ -15,8 +15,7 @@ import apiClient from "../../components/apiClient/apiClient"
 
 function Homepage() {
 
-    const { loginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, product, setProduct, user_token } = useContext(UserContext)
-
+    const { loginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, product, setProduct, userToken } = useContext(UserContext)
 
     const [clickedProductId, setClickedProductId] = useState(null);
     const [sortOption, setSortOption] = useState('vote')
@@ -26,7 +25,7 @@ function Homepage() {
     const [clickedProductComments, setClickedProductComments] = useState([]);
     const [showComments, setShowComments] = useState(false); // Toggle state for comments
 
-    const decodedToken = user_token ? jwt_decode(user_token) : null; //Token decode
+    const decodedToken = userToken ? jwt_decode(userToken) : null; //Token decode
     const userId = decodedToken ? decodedToken.id : null // Get User Id from Token
 
     const [editProduct, setEditProduct] = useState(null) // Product to edit
@@ -45,7 +44,14 @@ function Homepage() {
             console.log('Error Getting products', error);
         }
     }
-
+    //Fetch Logo Url
+    // const renderLogo = () => {
+    //     if (inputProductValue.logo_url) {
+    //         return <img src={inputProductValue.logo_url} alt="Logo" className={styles.logoImage} />;
+    //     } else {
+    //         return null;
+    //     }
+    // };
     // FIlter Clicked Box id
     const filterClickBoxId = (id) => {
         setClickedProductId(id);
@@ -131,11 +137,14 @@ function Homepage() {
     // open edit modal 
     const handelEditClick = (product) => {
         setEditProduct(product)
-        setAddProductModal(true)
+        // setAddProductModal(true)
     }
-
     useEffect(() => {
         getProducts()
+    }, [])
+   
+    useEffect(() => {
+        // getProducts()
         //SOrt Based on Selected dropdown value
         const sortProducts = () => {
             let sortedProducts = [...product]; // Here copy of the products array
@@ -204,7 +213,7 @@ function Homepage() {
 
                             {/* Add Product Button */}
                             <div className={styles.projectsTopBarRight}>
-                                {user_token ?
+                                {userToken ?
                                     <button onClick={() => setAddProductModal(true)}>+ Add Product</button> :
                                     <button onClick={() => setSignupModal(true)}>+ Add Product</button>
                                 }
@@ -218,8 +227,8 @@ function Homepage() {
                             {(product !== undefined) ?
                                 //Sort
                                 sortedProducts.map((pro) => {
-                                    
-                                    const { _id, user_id, title, description, category, comments, vote } = pro
+
+                                    const { _id, user_id, title, description, category, logo_url, comments, vote } = pro
                                     const isActive = _id === clickedProductId
 
                                     return (
@@ -231,7 +240,7 @@ function Homepage() {
                                                 <div className={styles.projectDetailsBoxLeft}>
 
                                                     <div className={styles.projectLogo}>
-                                                        <img src={cred} alt="cred-logo" id={styles.projectLogo} />
+                                                        <img src={logo_url} alt="logo" id={styles.projectLogo} />
                                                     </div>
 
                                                     <div className={styles.jobDetailsInfo}>
@@ -262,7 +271,7 @@ function Homepage() {
                                                             </div>
 
                                                             {/* Edit Button */}
-                                                            {user_token && user_id === userId &&
+                                                            {userToken && user_id === userId &&
                                                                 (<div className={styles.projectEditButtonDiv}>
 
                                                                     <button onClick={() => handelEditClick(pro)}>Edit</button>
@@ -279,7 +288,7 @@ function Homepage() {
                                                 <div className={styles.projectDetailsBoxRight}>
 
                                                     {/* Edit Button */}
-                                                    {/* {user_token && user_id === userId &&
+                                                    {/* {userToken && user_id === userId &&
                                                         (<div className={styles.projectEditButtonDiv}>
 
                                                             <button onClick={() => handelEditClick(pro)}>Edit</button>
@@ -305,7 +314,7 @@ function Homepage() {
                                             </div>
 
                                             {/* Comments Toggle*/}
-                                            {isActive && <Comment productId={_id} comments={comments} />}
+                                            {isActive && <Comment productId={_id} comments={comments} getProducts={getProducts}/>}
 
                                         </div>)
                                 }) : "Loading"

@@ -8,16 +8,20 @@ import user from "../../assets/user.svg"
 function Navbar() {
     const navigate = useNavigate()
 
-    const { user_token } = useContext(UserContext)
+    const { userToken, setUserToken } = useContext(UserContext)
 
+    const handleLogout = () => {
+        localStorage.removeItem('user_token');
+        setUserToken(null);
+    };
 
     return (
         <header>
             <label htmlFor="/Homepage" className={styles.logo}>Feedback</label>
 
-            {user_token !== null ?
+            {userToken !== null ?
                 <div className={styles.authDetail}>
-                    <button onClick={() => localStorage.removeItem('user_token')}>Logout</button>
+                    <button onClick={handleLogout}>Logout</button>
                     <p>Hello! </p>
                     <img src={user} alt="user-img" />
                 </div> :
