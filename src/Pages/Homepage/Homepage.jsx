@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import styles from './Homepage.module.css'
 import Navbar from '../../components/Navbar/Navbar';
 import loud from "../../assets/loud.svg"
-import cred from "../../assets/cred.svg"
 import { TbMessage2 } from "react-icons/tb";
 import { BsChatRightFill } from "react-icons/bs";
 import { MdKeyboardArrowUp } from "react-icons/md";
@@ -15,20 +14,21 @@ import apiClient from "../../components/apiClient/apiClient"
 
 function Homepage() {
 
-    const { loginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, product, setProduct, userToken } = useContext(UserContext)
+    const { editProductModal, setEditProductModal, loginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, product, setProduct, user_token } = useContext(UserContext)
 
     const [clickedProductId, setClickedProductId] = useState(null);
     const [sortOption, setSortOption] = useState('vote')
-    const [selectedCategory, setSelectedCategory] = useState('')
+
+    const [selectedCategory, setSelectedCategory] = useState('') // filter Category save here
     const [sortedProducts, setSortedProducts] = useState([]);
     const [userComments, setUserComments] = useState({})
-    const [clickedProductComments, setClickedProductComments] = useState([]);
     const [showComments, setShowComments] = useState(false); // Toggle state for comments
 
-    const decodedToken = userToken ? jwt_decode(userToken) : null; //Token decode
+    const decodedToken = user_token ? jwt_decode(user_token) : null; //Token decode
     const userId = decodedToken ? decodedToken.id : null // Get User Id from Token
 
     const [editProduct, setEditProduct] = useState(null) // Product to edit
+    const [showEditModal, setShowEditModal] = useState(false) // Check edit modal open/close
 
     // Fetch Products
     const getProducts = async () => {
@@ -44,28 +44,10 @@ function Homepage() {
             console.log('Error Getting products', error);
         }
     }
-    //Fetch Logo Url
-    // const renderLogo = () => {
-    //     if (inputProductValue.logo_url) {
-    //         return <img src={inputProductValue.logo_url} alt="Logo" className={styles.logoImage} />;
-    //     } else {
-    //         return null;
-    //     }
-    // };
-    // FIlter Clicked Box id
-    const filterClickBoxId = (id) => {
-        setClickedProductId(id);
 
-        if (clickedProductId === id) {
-            // If the same box is clicked again, hide the comments
-            setClickedProductId(null);
-            setShowComments(false);
-        } else {
-            setClickedProductId(id);
-            const clickedProduct = product.find((pro) => pro._id === id)
-            setClickedProductComments(clickedProduct ? clickedProduct.comments : []);
-            setShowComments(true);
-        }
+    const filterClickBoxId = (id) => {
+        setClickedProductId(prevId => prevId === id ? null : id);
+        setShowComments(prevShow => prevShow && clickedProductId !== id);
     };
 
     // Handel vote count
@@ -100,7 +82,6 @@ function Homepage() {
         }
     }
 
-
     // set Filter state value(category)
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
@@ -134,37 +115,44 @@ function Homepage() {
     // Count number of comments - Total Suggestion
     const totalComments = Object.values(userComments).reduce((total, count) => total + count, 0);
 
-    // open edit modal 
+    // open Edit modal 
     const handelEditClick = (product) => {
         setEditProduct(product)
-        // setAddProductModal(true)
+        setShowEditModal(true)
+        setEditProductModal(true)
     }
+
     useEffect(() => {
         getProducts()
     }, [])
-   
+
     useEffect(() => {
-        // getProducts()
         //SOrt Based on Selected dropdown value
         const sortProducts = () => {
             let sortedProducts = [...product]; // Here copy of the products array
-
             if (sortOption === 'vote') {
                 sortedProducts = sortedProducts.sort((a, b) => b.vote - a.vote);
             }
             else if (sortOption === 'comment') {
                 sortedProducts = sortedProducts.sort((a, b) => b.comments.length - a.comments.length);
             }
+
             // Apply filter if a category is selected
-            if (selectedCategory) {
-                sortedProducts = sortedProducts.filter(
-                    (pro) => pro.category.includes(selectedCategory)
+            if (selectedCategory !== '') {
+                sortedProducts = sortedProducts.filter((prod) =>
+                    prod.category === selectedCategory
                 );
+                // console.log("ins", sortedProducts);
             }
+            
+            console.log(sortedProducts);
+            console.log("selected", selectedCategory);
+
             setSortedProducts(sortedProducts); // Update the sortedProducts state
         };
         sortProducts()
     }, [sortOption, selectedCategory, product])
+
 
 
     return (
@@ -213,7 +201,8 @@ function Homepage() {
 
                             {/* Add Product Button */}
                             <div className={styles.projectsTopBarRight}>
-                                {userToken ?
+
+                                {user_token ?
                                     <button onClick={() => setAddProductModal(true)}>+ Add Product</button> :
                                     <button onClick={() => setSignupModal(true)}>+ Add Product</button>
                                 }
@@ -271,7 +260,7 @@ function Homepage() {
                                                             </div>
 
                                                             {/* Edit Button */}
-                                                            {userToken && user_id === userId &&
+                                                            {user_token && user_id === userId &&
                                                                 (<div className={styles.projectEditButtonDiv}>
 
                                                                     <button onClick={() => handelEditClick(pro)}>Edit</button>
@@ -288,7 +277,7 @@ function Homepage() {
                                                 <div className={styles.projectDetailsBoxRight}>
 
                                                     {/* Edit Button */}
-                                                    {/* {userToken && user_id === userId &&
+                                                    {/* {user_token && user_id === userId &&
                                                         (<div className={styles.projectEditButtonDiv}>
 
                                                             <button onClick={() => handelEditClick(pro)}>Edit</button>
@@ -314,7 +303,7 @@ function Homepage() {
                                             </div>
 
                                             {/* Comments Toggle*/}
-                                            {isActive && <Comment productId={_id} comments={comments} getProducts={getProducts}/>}
+                                            {isActive && <Comment productId={_id} comments={comments} getProducts={getProducts} />}
 
                                         </div>)
                                 }) : "Loading"
@@ -334,6 +323,9 @@ function Homepage() {
             {signupModal && <Modal type='signup' />}
 
             {addProductModal && <Modal type='add-Product' />}
+
+            {editProductModal && <Modal type='edit-Product' editProduct={editProduct} />}
+
 
         </div >
 

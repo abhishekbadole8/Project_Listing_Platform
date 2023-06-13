@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styles from "./Modal.module.css"
 import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
@@ -7,11 +7,13 @@ import { FaUserAlt } from "react-icons/fa";
 import { UserContext } from '../../UserContext';
 import apiClient from "../apiClient/apiClient"
 
-function Modal() {
+function Modal({ type, editProduct }) {
 
-    const { loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, userToken,setUserToken, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
+    const { setEditProductModal, loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, user_token, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
 
-    const [isModalOpen, setIsModalOpen] = useState(false) // Modal Close State
+    const [resMsg, setResMsg] = useState(null) //error response
+
+    const modalRef = useRef(null) // ref for modal close
 
     const handelUserInput = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value })
@@ -27,7 +29,21 @@ function Modal() {
         setLoginModal(true)
         setSignupModal(false)
     }
+    const closeModal = () => {
+        setLoginModal(false)
+        setSignupModal(false)
+        setAddProductModal(false)
+        setEditProductModal(false)
+        setResMsg(null)
+        setUser({})
+        setInputProductValue({})
+    }
 
+    const handleModalClick = (e) => {
+        if (e.target === modalRef.current) {
+            closeModal()
+        }
+    }
     // POST Login /api/user/login
     const fetchLogin = async (email, password) => {
         try {
@@ -41,13 +57,13 @@ function Modal() {
             if (response.status === 200) {
                 const user = await response.data;
                 if (user) {
-                    localStorage.setItem('userToken', JSON.stringify(user))
-                    setUserToken(eval(JSON.stringify(user)));
+                    localStorage.setItem('user_token', JSON.stringify(user))
                     setLoginModal(false)
                     setUser({})
                 }
             }
         } catch (error) {
+            setResMsg(error.response?.data.message)
             console.log("Login Error:", error);
         }
     }
@@ -61,7 +77,7 @@ function Modal() {
                     name, email, mobile, password
                 }
             );
-            if (response.status == 200) {
+            if (response.status === 200) {
                 const user = await response.data;
                 setUser(user)
                 setSignupModal(false)
@@ -69,6 +85,7 @@ function Modal() {
                 setInputProductValue({})
             }
         } catch (error) {
+            setResMsg(error.response?.data.message)
             console.log("Register Error", error);
         }
     }
@@ -76,134 +93,161 @@ function Modal() {
     //POST Create Product /api/product/add
     const addProduct = async (productData, userToken) => {
         try {
-            const response = await apiClient.post(
-                "/api/product/add",
-                {
-                    ...productData
-                }, {
-                headers: {
-                    Authorization: 'Bearer ' + userToken
-                }
+            let response
+            if (editProduct) {
+                const productId = editProduct._id
+                //Patch Request
+                response = await apiClient.patch(
+                    `/api/product/${productId}`,
+                    {
+                        ...productData
+                    }, {
+                    headers: {
+                        Authorization: 'Bearer ' + userToken
+                    }
+                });
+            } else {
+                response = await apiClient.post(
+                    "/api/product/add",
+                    {
+                        ...productData
+                    }, {
+                    headers: {
+                        Authorization: 'Bearer ' + userToken
+                    }
+                });
             }
-            );
             if (response.status === 200) {
-                const data = await response.data;
+                await response.data;
                 setAddProductModal(false)
+                setEditProductModal(false)
                 setInputProductValue({})
             }
         } catch (error) {
+            setResMsg(error.response?.data.message)
             console.log('Error In Add Product ', error);
         }
     }
 
-
     useEffect(() => {
+        //check type
+        if (type === 'edit-Product' && editProduct) {
+            setAddProductModal(true)
+            setInputProductValue({ ...editProduct })
+        } else {
+            setInputProductValue({})
+        }
+    }, [type, editProduct])
 
-    }, [loginModal, signupModal, addProductModal])
     return (
-        <>
-            {!isModalOpen &&
-                <div className={styles.modalBackground} >
+        <><div className={styles.modalBackground} ref={modalRef} onClick={handleModalClick}>
 
-                    <div className={styles.modalContainer} >
+            <div className={styles.modalContainer} >
 
-                        <div className={styles.modalLeft}>
+                <div className={styles.modalLeft}>
 
-                            {/* Login */}
-                            {loginModal === true &&
-                                <>
-                                    <h4>Log in to continue</h4>
+                    {/* Login */}
+                    {loginModal &&
+                        <>
+                            <h4>Log in to continue</h4>
 
-                                    <div className={styles.inputStyle}>
-                                        <LuMail size={19} />
-                                        <input type="email" name="email" value={user.email} placeholder='Email' onChange={handelUserInput} />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <LuMail size={19} />
+                                <input type="email" name="email" value={user.email} placeholder='Email' onChange={handelUserInput} />
+                            </div>
 
-                                    <div className={styles.inputStyle}>
-                                        <IoMdLock size={22} />
-                                        <input type="password" name="password" value={user.password} placeholder='Password' onChange={handelUserInput} />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <IoMdLock size={22} />
+                                <input type="password" name="password" value={user.password} placeholder='Password' onChange={handelUserInput} />
+                            </div>
 
-                                    <div className={styles.submitButton}>
-                                        <button className={styles.loginBtn} onClick={() => fetchLogin(user.email, user.password)}>Log in</button>
-                                    </div>
-                                </>}
+                            {resMsg && <label className={styles.errorMsg}>{resMsg}</label>}
 
-                            {/* Signup */}
-                            {signupModal === true &&
-                                <>
-                                    <h4>Signup to continue</h4>
+                            <div className={styles.submitButton}>
+                                <button className={styles.loginBtn} onClick={() => fetchLogin(user.email, user.password)}>Log in</button>
+                            </div>
+                        </>}
 
-                                    <div className={styles.inputStyle}>
-                                        <FaUserAlt size={19} />
-                                        <input type="text" name="name" value={user.name} onChange={handelUserInput} placeholder='Name' />
-                                    </div>
+                    {/* Signup */}
+                    {signupModal &&
+                        <>
+                            <h4>Signup to continue</h4>
 
-                                    <div className={styles.inputStyle}>
-                                        <LuMail size={19} />
-                                        <input type="email" name="email" value={user.email} onChange={handelUserInput} placeholder='Email' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <FaUserAlt size={19} />
+                                <input type="text" name="name" value={user.name} onChange={handelUserInput} placeholder='Name' />
+                            </div>
 
-                                    <div className={styles.inputStyle}>
-                                        <TfiMobile size={20} />
-                                        <input type="tele" name="mobile" value={user.mobile} onChange={handelUserInput} placeholder='Mobile' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <LuMail size={19} />
+                                <input type="email" name="email" value={user.email} onChange={handelUserInput} placeholder='Email' />
+                            </div>
 
-                                    <div className={styles.inputStyle}>
-                                        <IoMdLock size={22} />
-                                        <input type="password" name="password" value={user.password} onChange={handelUserInput} placeholder='Password' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <TfiMobile size={20} />
+                                <input type="tele" name="mobile" value={user.mobile} onChange={handelUserInput} placeholder='Mobile' />
+                            </div>
 
-                                    <p>Already have an account? <span onClick={() => handelSignUpModal()}>Login</span> </p>
+                            <div className={styles.inputStyle}>
+                                <IoMdLock size={22} />
+                                <input type="password" name="password" value={user.password} onChange={handelUserInput} placeholder='Password' />
+                            </div>
 
-                                    <div className={styles.submitButton}>
-                                        <button className={styles.loginBtn} onClick={() => fetchRegister(user.name, user.email, user.mobile, user.password)}>Signup</button>
-                                    </div>
+                            {resMsg && <label className={styles.errorMsg}>{resMsg.slice(0, 81)}</label>}
+                            <p>Already have an account? <span onClick={() => handelSignUpModal()}>Login</span> </p>
 
-                                </>}
+                            <div className={styles.submitButton}>
+                                <button className={styles.loginBtn} onClick={() => fetchRegister(user.name, user.email, user.mobile, user.password)}>Signup</button>
+                            </div>
 
-                            {/* Add Product */}
-                            {addProductModal === true &&
-                                <>
-                                    <h4>Add your product </h4>
+                        </>}
 
-                                    <div className={styles.inputStyle}>
-                                        <input type="text" name="title" value={inputProductValue.title} onChange={handelProductInput} placeholder='Name of the company' />
-                                    </div>
+                    {/* Add Product */}
+                    {addProductModal &&
+                        <>
+                            <h4>{editProduct ? 'Edit' : 'Add'} your product </h4>
 
-                                    <div className={styles.inputStyle}>
-                                        <input type="text" name="category" value={inputProductValue.category} onChange={(e) => handelCategoryInput(e)} placeholder='Category' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <input type="text" name="title" value={inputProductValue.title} onChange={handelProductInput} placeholder='Name of the company' />
+                            </div>
 
-                                    <div className={styles.inputStyle}>
-                                        <input type="text" name="logo_url" value={inputProductValue.logo_url} onChange={handelProductInput} placeholder='Add logo url' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <input type="text" name="category" value={inputProductValue.category} onChange={(e) => handelCategoryInput(e)} placeholder='Category' />
+                            </div>
 
-                                    <div className={styles.inputStyle}>
-                                        <input type="text" name="product_link" value={inputProductValue.product_link} onChange={handelProductInput} placeholder='Link of product' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <input type="text" name="logo_url" value={inputProductValue.logo_url} onChange={handelProductInput} placeholder='Add logo url' />
+                            </div>
 
-                                    <div className={styles.inputStyle}>
-                                        <input type="text" name="description" value={inputProductValue.description} onChange={handelProductInput} placeholder='Add description' />
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <input type="text" name="product_link" value={inputProductValue.product_link} onChange={handelProductInput} placeholder='Link of product' />
+                            </div>
 
-                                    <div className={styles.submitButton}>
-                                        <button className={styles.loginBtn} onClick={() => addProduct(inputProductValue, userToken)}>+ Add Product</button>
-                                    </div>
+                            <div className={styles.inputStyle}>
+                                <input type="text" name="description" value={inputProductValue.description} onChange={handelProductInput} placeholder='Add description' />
+                            </div>
+                            {resMsg && <label className={styles.errorMsg}>{resMsg}</label>}
 
-                                </>}
+                            <div className={styles.submitButton}>
+                                <button className={styles.loginBtn} onClick={() => addProduct(inputProductValue, user_token)}> {editProduct ? 'Update Product' : '+ Add Product'}</button>
+                            </div>
 
-                        </div>
+                        </>}
 
-                        {/* Right SIde */}
-                        <div className={styles.modalRight}>
-                            <h4>Feedback</h4>
-                            <p>Add your product and rate other items.............</p>
-                        </div>
+                </div>
 
-                    </div >
-                </div >
-            }
+                {/* Right SIde */}
+                <div className={styles.modalRight}>
+
+                    <h4>Feedback</h4>
+                    <p>Add your product and rate other items.............</p>
+
+                </div>
+
+
+            </div >
+
+        </div >
 
         </>)
 }

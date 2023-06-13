@@ -6,7 +6,7 @@ import apiClient from "../apiClient/apiClient"
 
 function Comment({ productId, comments, getProducts }) {
 
-    const { inputProductValue, setInputProductValue, product } = useContext(UserContext)
+    const { inputProductValue, setInputProductValue } = useContext(UserContext)
 
     const handelComments = (e) => {
         setInputProductValue((prevValue) => ({
@@ -19,6 +19,11 @@ function Comment({ productId, comments, getProducts }) {
     }
 
     const addComment = async () => {
+        //Preventing empty comments
+        if (!inputProductValue[productId]?.comments.trim()) {
+            return;
+        }
+
         try {
             const response = await apiClient.patch(
                 `/api/product/${productId}`,
@@ -27,17 +32,18 @@ function Comment({ productId, comments, getProducts }) {
                 }
             );
             if (response.status === 200) {
-                const data = await response.data;
+                await response.data;
                 setInputProductValue({})
             }
         } catch (error) {
             console.log('Error In Add Product ', error);
         }
     }
+
     useEffect(() => {
         getProducts()
     }, [inputProductValue])
-    // const fetchComments
+
     return (
         <>
             <div className={styles.projectBoxDown}>
@@ -52,7 +58,7 @@ function Comment({ productId, comments, getProducts }) {
                     {comments.map((com, i) => {
                         return (
                             <li key={i}>
-                                <a href="#"></a>
+                                <a ></a>
                                 <p>{com}</p>
                             </li>
                         )

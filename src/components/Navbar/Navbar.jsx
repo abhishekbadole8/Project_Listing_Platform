@@ -1,30 +1,26 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import styles from "./Navbar.module.css"
-import user from "../../assets/user.svg"
-
+import { FaUserCircle } from "react-icons/fa";
 
 function Navbar() {
     const navigate = useNavigate()
 
-    const { userToken, setUserToken } = useContext(UserContext)
-
-    const handleLogout = () => {
-        localStorage.removeItem('user_token');
-        setUserToken(null);
-    };
+    const { user_token } = useContext(UserContext)
 
     return (
+
         <header>
             <label htmlFor="/Homepage" className={styles.logo}>Feedback</label>
 
-            {userToken !== null ?
+            {user_token !== null ?
                 <div className={styles.authDetail}>
-                    <button onClick={handleLogout}>Logout</button>
+                    <button onClick={() => localStorage.removeItem('user_token')}>Logout</button>
                     <p>Hello! </p>
-                    <img src={user} alt="user-img" />
+                    <FaUserCircle size={38} />
                 </div> :
+
                 <div className={styles.authButton}>
                     <button onClick={() => navigate('/login')}>Login</button>
                     <button onClick={() => navigate('/signup')}>Signup</button>
@@ -32,6 +28,7 @@ function Navbar() {
 
             }
         </header>
+
     )
 }
 export default Navbar;

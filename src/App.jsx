@@ -7,15 +7,12 @@ import Homepage from "./Pages/Homepage/Homepage";
 
 function App() {
 
-  // LocalStorage TOken
-  const [userToken, setUserToken] = useState(() => {
-    const token = localStorage.getItem('userToken');
-    return eval(token);
-  });
+  const user_token = eval(localStorage.getItem('user_token')) // LocalStorage TOken
 
   const [loginModal, setLoginModal] = useState(false);
   const [signupModal, setSignupModal] = useState(false);
   const [addProductModal, setAddProductModal] = useState(false);
+  const [editProductModal, setEditProductModal] = useState(false);
   const [product, setProduct] = useState([]) // Products Saved Here 
 
   // User Inputs
@@ -27,16 +24,15 @@ function App() {
     <UserContext.Provider
       value={{
         loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal,
-        userToken, setUserToken, product, setProduct, user, setUser, inputProductValue, setInputProductValue
+        user_token, product, setProduct, user, setUser, inputProductValue, setInputProductValue,editProductModal, setEditProductModal
       }}>
       <Router>
         <Routes>
-
+          
           <Route exact path="/" element={<Homepage />} />
-          <Route path="/login" element={!userToken ? <Login /> : <Navigate to={'/'} />} />
-          <Route path="/signup" element={!userToken ? <SignUp /> : <Navigate to={'/'} />} />
+          <Route path="/login" element={!user_token ? <Login /> : <Navigate to={'/'} />} />
+          <Route path="/signup" element={!user_token ? <SignUp /> : <Navigate to={'/'} />} />
           <Route exact index path="/homepage" element={<Homepage />} />
-
 
         </Routes>
       </Router>
