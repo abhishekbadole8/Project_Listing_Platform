@@ -96,7 +96,7 @@ function Modal({ type, editProduct }) {
             let response
             if (editProduct) {
                 const productId = editProduct._id
-                //Patch Request
+                // Patch Request
                 response = await apiClient.patch(
                     `/api/product/${productId}`,
                     {
@@ -107,6 +107,7 @@ function Modal({ type, editProduct }) {
                     }
                 });
             } else {
+                // Post Request
                 response = await apiClient.post(
                     "/api/product/add",
                     {
@@ -138,6 +139,10 @@ function Modal({ type, editProduct }) {
             setInputProductValue({})
         }
     }, [type, editProduct])
+
+    useEffect(() => {
+
+    }, [loginModal, signupModal, addProductModal])
 
     return (
         <><div className={styles.modalBackground} ref={modalRef} onClick={handleModalClick}>

@@ -143,6 +143,7 @@
 }
 
 .projectLogo img{
+    margin-top: .7vh;
     width: 4.65vw;
     border-radius: 50%;
 

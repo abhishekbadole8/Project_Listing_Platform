@@ -48,6 +48,7 @@ function Homepage() {
     const filterClickBoxId = (id) => {
         setClickedProductId(prevId => prevId === id ? null : id);
         setShowComments(prevShow => prevShow && clickedProductId !== id);
+
     };
 
     // Handel vote count
@@ -137,16 +138,11 @@ function Homepage() {
                 sortedProducts = sortedProducts.sort((a, b) => b.comments.length - a.comments.length);
             }
 
-            // Apply filter if a category is selected
-            if (selectedCategory !== '') {
-                sortedProducts = sortedProducts.filter((prod) =>
-                    prod.category === selectedCategory
+            if (selectedCategory) {
+                sortedProducts = sortedProducts.filter(
+                    (pro) => pro.category.includes(selectedCategory)
                 );
-                // console.log("ins", sortedProducts);
             }
-            
-            console.log(sortedProducts);
-            console.log("selected", selectedCategory);
 
             setSortedProducts(sortedProducts); // Update the sortedProducts state
         };

@@ -10,9 +10,8 @@
 }
 
 .modalContainer {
-
     width: 55vw;
-    height: 60vh;
+    /* height: 60vh; */
     /* height: 100%; */
     display: flex;
 }
@@ -73,7 +72,7 @@
 /* Right Side */
 .modalRight {
     width: 23vw;
-    height: 100%;
+    /* height: 100%; */
     color: #fff;
     background: #36416A;
 }
@@ -127,7 +126,7 @@
 
     .modalContainer {
         width: 100%;
-        height: 55%;
+        /* height: 55%; */
         justify-content: center;
     }
 
