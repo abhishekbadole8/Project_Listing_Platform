@@ -32,23 +32,39 @@ function Homepage() {
 
     // Fetch Products
     const getProducts = async () => {
+
         try {
-            const response = await apiClient.get("/api/product/all")
-            if (response.status === 200) {
-                const data = await response.data
+            let response
+            if (selectedCategory) {
+                response = await apiClient.get("/api/product/all", {
+                    params: { category: selectedCategory }
+                })
                 if (response.status === 200) {
-                    setProduct(data || []);
+                    const data = await response.data
+                    if (response.status === 200) {
+                        setSortedProducts(data || []);
+                    }
+                }
+            } else {
+
+                response = await apiClient.get("/api/product/all")
+                if (response.status === 200) {
+                    const data = await response.data
+                    if (response.status === 200) {
+                        setProduct(data || []);
+                    }
                 }
             }
+
         } catch (error) {
             console.log('Error Getting products', error);
         }
     }
 
+    // click id get
     const filterClickBoxId = (id) => {
         setClickedProductId(prevId => prevId === id ? null : id);
         setShowComments(prevShow => prevShow && clickedProductId !== id);
-
     };
 
     // Handel vote count
@@ -125,7 +141,7 @@ function Homepage() {
 
     useEffect(() => {
         getProducts()
-    }, [])
+    }, [selectedCategory])
 
     useEffect(() => {
         //SOrt Based on Selected dropdown value
