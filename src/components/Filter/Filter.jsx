@@ -4,7 +4,6 @@ function Filter({ handleCategoryClick, selectedCategory, categories }) {
 
     //Creating unique Category Array
     const uniqueCategories = [...new Set(categories.flat())]
-
     return (
         <div className={styles.filterContainer} >
 
@@ -15,12 +14,12 @@ function Filter({ handleCategoryClick, selectedCategory, categories }) {
             </div>
 
             <h5>Filters:</h5>
-            
+
             {/* Down */}
             <div className={styles.filterDownBox}>
 
                 <p className={`${styles.filterTags}  ${selectedCategory === '' && styles.active}`} onClick={() => handleCategoryClick('')}>All</p>
-               
+
                 {uniqueCategories.map((category) => {
                     return <p key={category} className={`${styles.filterTags} ${selectedCategory === category && styles.active}`}
                         onClick={() => handleCategoryClick(category)}>{category}</p>

@@ -34,14 +34,52 @@ function SignUp() {
                 if (user) {
                     navigate('/login')
                 }
-            }            
+            }
         } catch (error) {
-            setResMsg(error.response?.data.message)
-            console.log("Register Error", error);
+            setResMsg(error.response.data.message)
+        }
+    }
+    // User Login Input Validation
+    const validateRegisterInput = () => {
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        const mobile_number_regex = /^(\+\d{1,3}[- ]?)?\d{10}$/
+
+        let err = {}
+
+        if (name === "" && email === "" && mobile === "" && password === "") {
+            err.all = "All field's are Required"
+        } else {
+            if (email === "") {
+                err.email = "Email Required"
+            }
+            else if (!email.match(regex)) {
+                err.email = "Email Is Invalid"
+            }
+            if (password === "") {
+                err.password = "Password Required"
+            }
+            if (name === "") {
+                err.password = "Name Required"
+            }
+            if (mobile === "") {
+                err.mobile = "Mobile Number Required"
+            } else if (!mobile.match(mobile_number_regex)) {
+                err.mobile = "Mobile Number Is Invalid"
+            }
+        }
+        setResMsg(Object.values(err))
+        return Object.keys(err).length < 1
+    }
+
+    const handleRegister = () => {
+        const isValid = validateRegisterInput()
+
+        if (isValid) {
+            fetchRegister(name, email, mobile, password)
+            setResMsg(null)
         }
     }
 
-   
     return (
 
         <div className={styles.AuthPage}>
@@ -66,7 +104,7 @@ function SignUp() {
 
                     <div className={styles.mobile}>
                         <TfiMobile size={23} />
-                        <input type="tel"  value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder='Mobile' />
+                        <input type="tel" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder='Mobile' />
                     </div>
 
                     <div className={styles.password}>
@@ -74,12 +112,12 @@ function SignUp() {
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                     </div>
 
-                    {resMsg && <label className={styles.errorMsg}>{resMsg}</label>}
+                    {resMsg && <label className={styles.errorMsg}>{resMsg.length > 1 ? resMsg.join(" & ") : resMsg}</label>}
 
                     <p>Already have an account? <span onClick={() => navigate('/login')}>Login</span> </p>
 
                     <div className={styles.loginButton}>
-                        <button className={styles.loginBtn} onClick={() => fetchRegister(name, email, mobile, password)}>Sign Up</button>
+                        <button className={styles.loginBtn} onClick={handleRegister}>Sign Up</button>
                     </div>
 
                 </div>

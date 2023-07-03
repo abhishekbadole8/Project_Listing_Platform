@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import styles from './Login.module.css'
 import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
@@ -10,7 +10,7 @@ function Login() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [resMsg, setResMsg] = useState(null)
+    const [error, setError] = useState([])
 
     const fetchLogin = async (email, password) => {
         try {
@@ -23,15 +23,45 @@ function Login() {
             );
             if (response.status === 200) {
                 const user = await response.data;
+
                 if (user) {
-                    localStorage.setItem('user_token', JSON.stringify(user))
-                    
+                    localStorage.setItem('user_token', user)
                     navigate('/homepage')
                 }
             }
         } catch (error) {
-            setResMsg(error.response?.data.message)
-            console.log("Login Error:", error);
+            setError(error.response.data.message)
+        }
+    }
+
+    // User Login Input Validation
+    const validateLoginInput = () => {
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+        let err = {}
+
+        if (email === "" && password === "") {
+            err.both = "Email and Password Required"
+        } else {
+            if (email === "") {
+                err.email = "Email Required"
+            }
+            else if (!email.match(regex)) {
+                err.email = "Email Is Invalid"
+            }
+            if (password === "") {
+                err.password = "Password Required"
+            }
+        }
+        setError(Object.values(err))
+        return Object.keys(err).length < 1
+    }
+
+    const handleLogin = () => {
+        let isValid = validateLoginInput()
+
+        if (isValid) {
+            fetchLogin(email, password)
         }
     }
 
@@ -57,12 +87,12 @@ function Login() {
                         <input type="password" placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
-                    {resMsg && <label className={styles.errorMsg}>{resMsg}</label>}
+                    {error && <label className={styles.errorMsg}>{error.length == 2 ? (error[0] + " & " + error[1]) : error}</label>}
 
                     <p>Dont have an account? <span onClick={() => navigate('/signup')}>SignUp</span></p>
 
                     <div className={styles.loginButton}>
-                        <button className={styles.loginBtn} onClick={() => fetchLogin(email, password)}>Log in</button>
+                        <button className={styles.loginBtn} onClick={handleLogin}>Log in</button>
                     </div>
 
                 </div>

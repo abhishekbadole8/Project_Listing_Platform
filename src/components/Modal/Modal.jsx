@@ -37,6 +37,7 @@ function Modal({ type, editProduct }) {
         setResMsg(null)
         setUser({})
         setInputProductValue({})
+        setResMsg(null)
     }
 
     const handleModalClick = (e) => {
@@ -44,6 +45,7 @@ function Modal({ type, editProduct }) {
             closeModal()
         }
     }
+
     // POST Login /api/user/login
     const fetchLogin = async (email, password) => {
         try {
@@ -63,8 +65,40 @@ function Modal({ type, editProduct }) {
                 }
             }
         } catch (error) {
-            setResMsg(error.response?.data.message)
-            console.log("Login Error:", error);
+            setResMsg(error.response.data.message)
+        }
+    }
+
+    // User Login Input Validation
+    const validateLoginInput = () => {
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+        let err = {}
+
+        if (user.email === "" && user.password === "") {
+            err.both = "Email and Password Required"
+        } else {
+            if (user.email === "") {
+                err.email = "Email Required"
+            }
+            else if (!user.email.match(regex)) {
+                err.email = "Email Is Invalid"
+            }
+            if (user.password === "") {
+                err.password = "Password Required"
+            }
+        }
+        setResMsg(Object.values(err))
+        return Object.keys(err).length < 1
+    }
+
+    // Handle Login Click
+    const handleLogin = () => {
+        const isValid = validateLoginInput()
+
+        if (isValid) {
+            fetchLogin(user.email, user.password)
+            setResMsg(null)
         }
     }
 
@@ -90,6 +124,46 @@ function Modal({ type, editProduct }) {
         }
     }
 
+    // User Register Input Validation
+    const validateRegisterInput = () => {
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        const mobile_number_regex = /^(\+\d{1,3}[- ]?)?\d{10}$/
+
+        let err = {}
+
+        if (user.name === "" && user.email === "" && user.mobile === "" && user.password === "") {
+            err.all = "All field's are Required"
+        } else {
+            if (user.email === "") {
+                err.email = "Email Required"
+            }
+            else if (!user.email.match(regex)) {
+                err.email = "Email Is Invalid"
+            }
+            if (user.password === "") {
+                err.password = "Password Required"
+            }
+            if (user.name === "") {
+                err.password = "Name Required"
+            }
+            if (user.mobile === "") {
+                err.mobile = "Mobile Number Required"
+            } else if (!user.mobile.match(mobile_number_regex)) {
+                err.mobile = "Mobile Number Is Invalid"
+            }
+        }
+        setResMsg(Object.values(err))
+        return Object.keys(err).length < 1
+    }
+
+    const handleRegister = () => {
+        const isValid = validateRegisterInput()
+
+        if (isValid) {
+            fetchRegister(user.name, user.email, user.mobile, user.password)
+            setResMsg(null)
+        }
+    }
     //POST Create Product /api/product/add
     const addProduct = async (productData, userToken) => {
         try {
@@ -166,10 +240,10 @@ function Modal({ type, editProduct }) {
                                 <input type="password" name="password" value={user.password} placeholder='Password' onChange={handelUserInput} />
                             </div>
 
-                            {resMsg && <label className={styles.errorMsg}>{resMsg}</label>}
+                            {resMsg && <label className={styles.errorMsg}>{resMsg.length == 2 ? (resMsg[0] + " & " + resMsg[1]) : resMsg}</label>}
 
                             <div className={styles.submitButton}>
-                                <button className={styles.loginBtn} onClick={() => fetchLogin(user.email, user.password)}>Log in</button>
+                                <button className={styles.loginBtn} onClick={handleLogin}>Log in</button>
                             </div>
                         </>}
 
@@ -190,7 +264,7 @@ function Modal({ type, editProduct }) {
 
                             <div className={styles.inputStyle}>
                                 <TfiMobile size={20} />
-                                <input type="tele" name="mobile" value={user.mobile} onChange={handelUserInput} placeholder='Mobile' />
+                                <input type="tel" name="mobile" value={user.mobile} onChange={handelUserInput} placeholder='Mobile' />
                             </div>
 
                             <div className={styles.inputStyle}>
@@ -198,11 +272,12 @@ function Modal({ type, editProduct }) {
                                 <input type="password" name="password" value={user.password} onChange={handelUserInput} placeholder='Password' />
                             </div>
 
-                            {resMsg && <label className={styles.errorMsg}>{resMsg.slice(0, 81)}</label>}
+                            {resMsg && <label className={styles.errorMsg}>{resMsg.length > 1 ? resMsg.join(" & ") : resMsg}</label>}
+
                             <p>Already have an account? <span onClick={() => handelSignUpModal()}>Login</span> </p>
 
                             <div className={styles.submitButton}>
-                                <button className={styles.loginBtn} onClick={() => fetchRegister(user.name, user.email, user.mobile, user.password)}>Signup</button>
+                                <button className={styles.loginBtn} onClick={handleRegister}>Signup</button>
                             </div>
 
                         </>}

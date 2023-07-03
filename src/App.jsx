@@ -7,7 +7,7 @@ import Homepage from "./Pages/Homepage/Homepage";
 
 function App() {
 
-  const user_token = eval(localStorage.getItem('user_token')) // LocalStorage TOken
+  const user_token = localStorage.getItem('user_token') // LocalStorage TOken
 
   const [loginModal, setLoginModal] = useState(false);
   const [signupModal, setSignupModal] = useState(false);
@@ -20,6 +20,7 @@ function App() {
   // Product Inputs
   const [inputProductValue, setInputProductValue] = useState({ title: "", category: [], logo_url: "", product_link: "", description: "", vote: "", comments: [] })
 
+  
   return (
     <UserContext.Provider
       value={{
