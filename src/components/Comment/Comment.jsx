@@ -2,12 +2,13 @@ import { useContext, useEffect } from 'react'
 import styles from './Comment.module.css'
 import { UserContext } from '../../UserContext'
 import button from "../../assets/button.svg"
-import apiClient from "../apiClient/apiClient"
+import axios from 'axios'
 
 function Comment({ productId, comments, getProducts }) {
 
     const { inputProductValue, setInputProductValue } = useContext(UserContext)
-
+    const { BASE_URL } = useContext(UserContext)
+    
     const handelComments = (e) => {
         setInputProductValue((prevValue) => ({
             ...prevValue,
@@ -25,13 +26,12 @@ function Comment({ productId, comments, getProducts }) {
         }
 
         try {
-            const response = await apiClient.patch(
-                `/api/product/${productId}`,
+            const response = await axios.patch(BASE_URL + `/api/product/${productId}`,
                 {
                     comments: [...comments, inputProductValue[productId]?.comments]
                 }
             );
-            if (response.status === 200) {
+            if (response) {
                 await response.data;
                 setInputProductValue({})
             }

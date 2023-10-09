@@ -2,22 +2,23 @@ import { useContext, useEffect, useState } from 'react';
 import styles from './Homepage.module.css'
 import Navbar from '../../components/Navbar/Navbar';
 import loud from "../../assets/loud.svg"
-import { TbMessage2 } from "react-icons/tb";
-import { BsChatRightFill } from "react-icons/bs";
-import { MdKeyboardArrowUp } from "react-icons/md";
 import Comment from '../../components/Comment/Comment';
 import Modal from '../../components/Modal/Modal';
 import Filter from '../../components/Filter/Filter';
 import { UserContext } from '../../UserContext';
 import jwt_decode from "jwt-decode"
-import apiClient from "../../components/apiClient/apiClient"
+import Product from '../../components/Product/Product';
+import axios from 'axios';
 
 function Homepage() {
 
-    const { editProductModal, setEditProductModal, loginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, product, setProduct, user_token } = useContext(UserContext)
+    const { editProductModal, setEditProductModal, loginModal, signupModal, setSignupModal,
+        addProductModal, setAddProductModal, product, setProduct, user_token, BASE_URL } = useContext(UserContext)
 
     const [clickedProductId, setClickedProductId] = useState(null);
     const [sortOption, setSortOption] = useState('vote')
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const [selectedCategory, setSelectedCategory] = useState('') // filter Category save here
     const [sortedProducts, setSortedProducts] = useState([]);
@@ -32,30 +33,27 @@ function Homepage() {
 
     // Fetch Products
     const getProducts = async () => {
-
         try {
             let response
             if (selectedCategory) {
-                response = await apiClient.get("/api/product/all", {
+                response = await axios.get(`${BASE_URL}/api/product/all`, {
                     params: { category: selectedCategory }
                 })
-                if (response.status === 200) {
+                if (response) {
+                    setIsLoading(false)
                     const data = await response.data
-                    if (response.status === 200) {
+                    if (response) {
                         setSortedProducts(data || []);
                     }
                 }
             } else {
-
-                response = await apiClient.get("/api/product/all")
-                if (response.status === 200) {
+                response = await axios.get(`${BASE_URL}/api/product/all`)
+                if (response) {
+                    setIsLoading(false)
                     const data = await response.data
-                    if (response.status === 200) {
-                        setProduct(data || []);
-                    }
+                    setProduct(data || []);
                 }
             }
-
         } catch (error) {
             console.log('Error Getting products', error);
         }
@@ -140,6 +138,7 @@ function Homepage() {
     }
 
     useEffect(() => {
+        setIsLoading(true)
         getProducts()
     }, [selectedCategory])
 
@@ -166,7 +165,6 @@ function Homepage() {
     }, [sortOption, selectedCategory, product])
 
 
-
     return (
         <div className={styles.bodyMain}>
 
@@ -188,7 +186,7 @@ function Homepage() {
                 <div className={styles.mainContainer}>
 
                     {/* Filter Container */}
-                    <Filter handleCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} categories={product ? product.map((pro) => pro.category) : []} />
+                    <Filter handleCategoryClick={handleCategoryClick} selectedCategory={selectedCategory} categories={product ? product.map((pro) => pro.category) : []} isLoading={isLoading}/>
 
                     {/* Project Container */}
                     <div className={styles.projectsContainer}>
@@ -216,8 +214,7 @@ function Homepage() {
 
                                 {user_token ?
                                     <button onClick={() => setAddProductModal(true)}>+ Add Product</button> :
-                                    <button onClick={() => setSignupModal(true)}>+ Add Product</button>
-                                }
+                                    <button onClick={() => setSignupModal(true)}>+ Add Product</button>}
                             </div>
 
                         </div>
@@ -225,101 +222,20 @@ function Homepage() {
                         {/* Product Boxs Container */}
                         <div className={styles.productsBoxContainer} >
 
-                            {(product !== undefined) ?
-                                //Sort
-                                sortedProducts.map((pro) => {
+                            {isLoading ?
+                                <>
+                                    <div className={styles.productLoading} />
+                                    <div className={styles.productLoading} />
+                                </>
+                                :
+                                sortedProducts.map((product) => {
+                                    const isActive = product._id === clickedProductId
 
-                                    const { _id, user_id, title, description, category, logo_url, comments, vote } = pro
-                                    const isActive = _id === clickedProductId
+                                    return <Product key={product._id} product={product} userId={userId} isActive={isActive}
+                                        filterClickBoxId={filterClickBoxId} getProducts={getProducts} handelVoteCount={handelVoteCount}
+                                        user_token={user_token} handelEditClick={handelEditClick} />
 
-                                    return (
-                                        <div className={styles.projectsBox} key={_id} >
-
-                                            <div className={styles.projectBoxUp}>
-
-                                                {/* Box Left */}
-                                                <div className={styles.projectDetailsBoxLeft}>
-
-                                                    <div className={styles.projectLogo}>
-                                                        <img src={logo_url} alt="logo" id={styles.projectLogo} />
-                                                    </div>
-
-                                                    <div className={styles.jobDetailsInfo}>
-
-                                                        {/* Job Detail Layer 1 */}
-                                                        <h5>{title}</h5>
-
-                                                        {/* Job Detail Layer 2 */}
-                                                        <div className={styles.jobDetails}>
-                                                            <p>{description}</p>
-                                                        </div>
-
-                                                        {/* Job Detail Layer 3 */}
-                                                        <div className={styles.typeDetails}>
-
-                                                            {category.map((cat, i) => {
-                                                                return (
-                                                                    <div className={styles.projectType} key={i}>
-                                                                        <p>{cat}</p>
-                                                                    </div>)
-                                                            })}
-
-                                                            <div className={styles.projectComments} onClick={() => filterClickBoxId(_id)}>
-                                                                <TbMessage2 size={25} />
-
-                                                                {/* Comment Button Here */}
-                                                                <p>Comments</p>
-                                                            </div>
-
-                                                            {/* Edit Button */}
-                                                            {user_token && user_id === userId &&
-                                                                (<div className={styles.projectEditButtonDiv}>
-
-                                                                    <button onClick={() => handelEditClick(pro)}>Edit</button>
-
-                                                                </div>)}
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                                {/* Box Right */}
-                                                <div className={styles.projectDetailsBoxRight}>
-
-                                                    {/* Edit Button */}
-                                                    {/* {user_token && user_id === userId &&
-                                                        (<div className={styles.projectEditButtonDiv}>
-
-                                                            <button onClick={() => handelEditClick(pro)}>Edit</button>
-
-                                                        </div>)} */}
-
-                                                    <div className={styles.projectTagsDiv}>
-
-                                                        <div className={styles.upVoteCountTag} onClick={() => filterClickBoxId(_id)}>
-                                                            <MdKeyboardArrowUp size={22} onClick={(e) => handelVoteCount(e, _id)} />
-                                                            <p >{!vote ? 0 : vote}</p>
-                                                        </div>
-
-                                                        <div className={styles.commentCountTag}>
-                                                            <p>{comments.length}</p>
-                                                            <BsChatRightFill size={18} />
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                            {/* Comments Toggle*/}
-                                            {isActive && <Comment productId={_id} comments={comments} getProducts={getProducts} />}
-
-                                        </div>)
-                                }) : "Loading"
-                            }
+                                })}
 
                         </div>
 

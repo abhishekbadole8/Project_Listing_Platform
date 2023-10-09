@@ -6,7 +6,7 @@ import SignUp from "./Pages/Signup/Signup";
 import Homepage from "./Pages/Homepage/Homepage";
 
 function App() {
-
+  const BASE_URL = `https://project-listing-platform.onrender.com`
   const user_token = localStorage.getItem('user_token') // LocalStorage TOken
 
   const [loginModal, setLoginModal] = useState(false);
@@ -20,16 +20,15 @@ function App() {
   // Product Inputs
   const [inputProductValue, setInputProductValue] = useState({ title: "", category: [], logo_url: "", product_link: "", description: "", vote: "", comments: [] })
 
-  
   return (
     <UserContext.Provider
       value={{
-        loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal,
-        user_token, product, setProduct, user, setUser, inputProductValue, setInputProductValue,editProductModal, setEditProductModal
+        loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal,BASE_URL,
+        user_token, product, setProduct, user, setUser, inputProductValue, setInputProductValue, editProductModal, setEditProductModal
       }}>
       <Router>
         <Routes>
-          
+
           <Route exact path="/" element={<Homepage />} />
           <Route path="/login" element={!user_token ? <Login /> : <Navigate to={'/'} />} />
           <Route path="/signup" element={!user_token ? <SignUp /> : <Navigate to={'/'} />} />

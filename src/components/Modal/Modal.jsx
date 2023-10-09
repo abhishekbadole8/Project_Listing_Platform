@@ -5,11 +5,11 @@ import { IoMdLock } from "react-icons/io";
 import { TfiMobile } from "react-icons/tfi";
 import { FaUserAlt } from "react-icons/fa";
 import { UserContext } from '../../UserContext';
-import apiClient from "../apiClient/apiClient"
+import axios from 'axios';
 
 function Modal({ type, editProduct }) {
 
-    const { setEditProductModal, loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, user_token, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
+    const { BASE_URL, setEditProductModal, loginModal, setLoginModal, signupModal, setSignupModal, addProductModal, setAddProductModal, user_token, user, setUser, inputProductValue, setInputProductValue } = useContext(UserContext)
 
     const [resMsg, setResMsg] = useState(null) //error response
 
@@ -49,19 +49,18 @@ function Modal({ type, editProduct }) {
     // POST Login /api/user/login
     const fetchLogin = async (email, password) => {
         try {
-            const response = await apiClient.post(
-                "/api/user/login",
+            const response = await axios.post(BASE_URL + "/api/user/login",
                 {
                     email,
                     password
                 }
             );
-            if (response.status === 200) {
+            if (response) {
                 const user = await response.data;
                 if (user) {
                     localStorage.setItem('user_token', JSON.stringify(user))
                     setLoginModal(false)
-                    setUser({})
+                    setUser({ name: "", email: "", mobile: "", password: "" })
                 }
             }
         } catch (error) {
@@ -103,15 +102,10 @@ function Modal({ type, editProduct }) {
     }
 
     //POST Create New User
-    const fetchRegister = async (name, email, mobile, password) => {
+    const fetchRegister = async () => {
         try {
-            const response = await apiClient.post(
-                "/api/user/register",
-                {
-                    name, email, mobile, password
-                }
-            );
-            if (response.status === 200) {
+            const response = await axios.post(BASE_URL + "/api/user/register", { user });
+            if (response) {
                 const user = await response.data;
                 setUser(user)
                 setSignupModal(false)
@@ -171,8 +165,7 @@ function Modal({ type, editProduct }) {
             if (editProduct) {
                 const productId = editProduct._id
                 // Patch Request
-                response = await apiClient.patch(
-                    `/api/product/${productId}`,
+                response = await axios.patch(BASE_URL + `/api/product/${productId}`,
                     {
                         ...productData
                     }, {
@@ -182,18 +175,15 @@ function Modal({ type, editProduct }) {
                 });
             } else {
                 // Post Request
-                response = await apiClient.post(
-                    "/api/product/add",
-                    {
-                        ...productData
-                    }, {
+                response = await axios.post(BASE_URL + "/api/product/add", {
+                    ...productData
+                }, {
                     headers: {
                         Authorization: 'Bearer ' + userToken
                     }
                 });
             }
-            if (response.status === 200) {
-                await response.data;
+            if (response) {
                 setAddProductModal(false)
                 setEditProductModal(false)
                 setInputProductValue({})

@@ -113,7 +113,7 @@
     border-radius: 7px;
 }
 
-/* boxes Container */
+/* Cards Container */
 .productsBoxContainer {
     width: 70vw;
     height: 100%;
@@ -122,125 +122,24 @@
     gap: 2vh;
 }
 
-/* Box 1 */
-.projectsBox {
-    display: flex;
-    flex-direction: column;
-    gap: 3.5vh;
-    background: rgba(54, 65, 106, 0.15);
+.productLoading {
+    width: 100%;
+    height:7.8rem;
+    background: linear-gradient(90deg, #243D6A26 0%, #ecf0f3 50%, #243D6A26 100%);
+    background-size: 200% 100%;
+    animation: gradientAnimation 2s linear infinite;
     border-radius: 4px;
     padding: 1.5vh 1.75vw;
 }
+@keyframes gradientAnimation {
+    0% {
+        background-position: -200% 0;
+    }
 
-.projectBoxUp {
-    display: flex;
-    justify-content: space-between;
+    100% {
+        background-position: 200% 0;
+    }
 }
-
-.projectDetailsBoxLeft {
-    display: flex;
-    gap: 1.5vw;
-}
-
-.projectLogo img{
-    margin-top: .7vh;
-    width: 4.65vw;
-    border-radius: 50%;
-
-}
-
-.jobDetailsInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 1.1vh;
-}
-
-.jobDetailsInfo h5 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #36416A;
-}
-
-.typeDetails {
-    display: flex;
-    gap: 1.5vw;
-}
-
-.projectType {
-    display: flex;
-    gap: 1vw;
-}
-
-.projectType p {
-    padding: .8vh .9vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #C0CEFF;
-    border-radius: 20.9396px;
-}
-
-.projectComments {
-    color: #ABABAB;
-    display: flex;
-    font-size: 1.1rem;
-    font-weight: 500;
-    gap: .5vw;
-    align-items: center;
-    cursor: pointer;
-}
-
-/*Product Box Right Side */
-.projectDetailsBoxRight {
-    display: flex;
-    gap: 2vw;
-}
-
-.projectEditButtonDiv {
-    display: flex;
-}
-
-.projectEditButtonDiv button {
-    width: 7vw;
-    height: 4.5vh;
-    font-size: 1.2rem;
-    font-weight: 500;
-    border: none;
-    color: #fff;
-    background: #36416A;
-    border-radius: 29px;
-    cursor: pointer;
-}
-
-.projectTagsDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.projectTagsDiv p {
-    font-weight: 500;
-}
-
-.upVoteCountTag {
-    width: 3vw;
-    height: 7.5vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: .5vh;
-    background: #C7CBD6;
-    border-radius: 15.9836px;
-    cursor: pointer;
-}
-
-.commentCountTag {
-    display: flex;
-    align-items: center;
-    gap: .5vw;
-}
-
 @media only screen and (max-width: 850px) {
 
     .posterCotainer {
@@ -282,7 +181,7 @@
     .projectsTopBar {
         width: 100%;
         padding: 1vw;
-        
+
     }
 
     .projectsTopBarLeft {
@@ -299,9 +198,9 @@
     .sortDiv select {
         width: 20px;
     }
-    
-    .projectsTopBarRight button{
-        padding: 1vh 1.5vw;        
+
+    .projectsTopBarRight button {
+        padding: 1vh 1.5vw;
     }
 
     /* Boxes Container */
@@ -320,7 +219,7 @@
         margin-top: .5vh;
     }
 
-    .jobDetailsInfo{
+    .jobDetailsInfo {
         justify-content: space-evenly;
     }
 
@@ -347,9 +246,11 @@
         width: 15vw;
         font-size: 1em;
     }
+
     .projectTagsDiv {
         justify-content: space-between;
     }
+
     .upVoteCountTag {
         width: 100%;
         padding: 0 1.5vw;
@@ -358,7 +259,8 @@
     .commentCountTag {
         gap: 1vw;
     }
-    .commentCountTag p{
+
+    .commentCountTag p {
         font-size: 1.05rem;
     }
 }

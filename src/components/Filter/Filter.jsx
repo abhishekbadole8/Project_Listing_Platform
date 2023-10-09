@@ -1,6 +1,6 @@
 import styles from './Filter.module.css'
 
-function Filter({ handleCategoryClick, selectedCategory, categories }) {
+function Filter({ handleCategoryClick, selectedCategory, categories, isLoading }) {
 
     //Creating unique Category Array
     const uniqueCategories = [...new Set(categories.flat())]
@@ -17,14 +17,22 @@ function Filter({ handleCategoryClick, selectedCategory, categories }) {
 
             {/* Down */}
             <div className={styles.filterDownBox}>
+                {isLoading ?
+                    <>
+                        <p className={styles.filterTagLoading} />
+                        <p className={styles.filterTagLoading} />
+                        <p className={styles.filterTagLoading} />
+                        <p className={styles.filterTagLoading} />
+                    </> :
+                    <>
+                        <p className={`${styles.filterTags}  ${selectedCategory === '' && styles.active}`} onClick={() => handleCategoryClick('')}>All</p>
 
-                <p className={`${styles.filterTags}  ${selectedCategory === '' && styles.active}`} onClick={() => handleCategoryClick('')}>All</p>
-
-                {uniqueCategories.map((category) => {
-                    return <p key={category} className={`${styles.filterTags} ${selectedCategory === category && styles.active}`}
-                        onClick={() => handleCategoryClick(category)}>{category}</p>
-                })}
-
+                        {uniqueCategories.map((category) => {
+                            return <p key={category} className={`${styles.filterTags} ${selectedCategory === category && styles.active}`}
+                                onClick={() => handleCategoryClick(category)}>{category}</p>
+                        })}
+                    </>
+                }
             </div>
         </div>
     )

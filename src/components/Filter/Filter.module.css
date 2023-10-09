@@ -34,7 +34,6 @@
 .filterTags {
     cursor: pointer;
     padding: .8vh 1vw;
-    /* height: 4.70vh; */
     font-size: 1.1rem;
     font-weight: 400;
     display: flex;
@@ -42,6 +41,28 @@
     background: rgba(54, 65, 106, 0.15);
     border-radius: 25.0428px;
 }
+
+/* loading */
+.filterTagLoading {
+    width: 6rem;
+    height: 2.25rem;
+    border-radius: 25.0428px;
+    background: linear-gradient(90deg, #243D6A26 0%, #ecf0f3 50%, #243D6A26 100%);
+    background-size: 200% 100%;
+    animation: gradientAnimation 2s linear infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ---------- */
 
 .filterTags:hover {
     color: #fff;
@@ -81,8 +102,8 @@
         padding: 0 3.5vw 2.5vh 3.5vw;
     }
 
-    .filterTags {  
-        padding: .8vh 5vw;      
+    .filterTags {
+        padding: .8vh 5vw;
         text-align: center;
     }
 }

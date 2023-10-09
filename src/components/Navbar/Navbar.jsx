@@ -13,7 +13,7 @@ function Navbar() {
     const handelLogout = () => {
         localStorage.removeItem('user_token')
         setUser_token_val(null)
-        navigate('/login', { replace: true })
+        // navigate('/login', { replace: true })
     }
 
     useEffect(() => {

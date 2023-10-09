@@ -1,41 +1,39 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css"
 import { LuMail } from "react-icons/lu";
 import { IoMdLock } from "react-icons/io";
 import { TfiMobile } from "react-icons/tfi";
 import { FaUserAlt } from "react-icons/fa";
-import apiClient from "../../components/apiClient/apiClient"
+import { UserContext } from "../../UserContext";
+import axios from "axios";
 
 function SignUp() {
 
     const navigate = useNavigate()
-
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [mobile, setMobile] = useState('')
-    const [password, setPassword] = useState('')
-
+    const { BASE_URL } = useContext(UserContext)
+    const [inputValue, setInputValue] = useState({ name: "", email: "", mobile: "", password: "" })
+    const [isLoading, setIsLoading] = useState(false);
     const [resMsg, setResMsg] = useState(null)
 
-    const fetchRegister = async (name, email, mobile, password) => {
+    const handleChange = (e) => {
+        setInputValue((prevValue) => ({
+            ...prevValue, [e.target.name]: e.target.value
+        }))
+    }
+
+    const fetchRegister = async () => {
         try {
-            const response = await apiClient.post(
-                "/api/user/register",
-                {
-                    name,
-                    email,
-                    mobile,
-                    password,
-                }
-            );
-            if (response.status === 200) {
+            const response = await axios.post(BASE_URL + "/api/user/register", { ...inputValue });
+            if (response) {
                 const user = await response.data;
                 if (user) {
-                    navigate('/login')
+                    setIsLoading(false)
+                    navigate('/login', { state: { userCreated: "User Created, Please Login" } })
                 }
             }
         } catch (error) {
+            setIsLoading(false)
             setResMsg(error.response.data.message)
         }
     }
@@ -46,24 +44,24 @@ function SignUp() {
 
         let err = {}
 
-        if (name === "" && email === "" && mobile === "" && password === "") {
+        if (inputValue.name === "" && inputValue.email === "" && inputValue.mobile === "" && inputValue.password === "") {
             err.all = "All field's are Required"
         } else {
-            if (email === "") {
+            if (inputValue.email === "") {
                 err.email = "Email Required"
             }
-            else if (!email.match(regex)) {
+            else if (!inputValue.email.match(regex)) {
                 err.email = "Email Is Invalid"
             }
-            if (password === "") {
+            if (inputValue.password === "") {
                 err.password = "Password Required"
             }
-            if (name === "") {
+            if (inputValue.name === "") {
                 err.password = "Name Required"
             }
-            if (mobile === "") {
+            if (inputValue.mobile === "") {
                 err.mobile = "Mobile Number Required"
-            } else if (!mobile.match(mobile_number_regex)) {
+            } else if (!inputValue.mobile.match(mobile_number_regex)) {
                 err.mobile = "Mobile Number Is Invalid"
             }
         }
@@ -75,7 +73,8 @@ function SignUp() {
         const isValid = validateRegisterInput()
 
         if (isValid) {
-            fetchRegister(name, email, mobile, password)
+            setIsLoading(true)
+            fetchRegister()
             setResMsg(null)
         }
     }
@@ -94,22 +93,22 @@ function SignUp() {
 
                     <div className={styles.name}>
                         <FaUserAlt size={21} />
-                        <input type="name" value={name} onChange={(e) => setName(e.target.value)} placeholder='Name' />
+                        <input type="name" name="name" value={inputValue.name} onChange={handleChange} placeholder='Name' />
                     </div>
 
                     <div className={styles.email}>
                         <LuMail size={21} />
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+                        <input type="email" name="email" value={inputValue.email} onChange={handleChange} placeholder='Email' />
                     </div>
 
                     <div className={styles.mobile}>
                         <TfiMobile size={23} />
-                        <input type="tel" value={mobile} onChange={(e) => setMobile(e.target.value)} placeholder='Mobile' />
+                        <input type="tel" name="mobile" value={inputValue.mobile} onChange={handleChange} placeholder='Mobile' />
                     </div>
 
                     <div className={styles.password}>
                         <IoMdLock size={25} />
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                        <input type="password" name="password" value={inputValue.password} onChange={handleChange} placeholder='Password' />
                     </div>
 
                     {resMsg && <label className={styles.errorMsg}>{resMsg.length > 1 ? resMsg.join(" & ") : resMsg}</label>}
@@ -117,7 +116,7 @@ function SignUp() {
                     <p>Already have an account? <span onClick={() => navigate('/login')}>Login</span> </p>
 
                     <div className={styles.loginButton}>
-                        <button className={styles.loginBtn} onClick={handleRegister}>Sign Up</button>
+                        <button className={styles.loginBtn} onClick={handleRegister} disabled={isLoading}>{isLoading ? 'Loading...' : 'Sign Up'}</button>
                     </div>
 
                 </div>
