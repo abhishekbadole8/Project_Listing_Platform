@@ -77,7 +77,7 @@ function Homepage() {
             const productId = clickedProduct._id;
             const updatedVoteCount = clickedProduct.vote + 1;
 
-            const res = await apiClient.patch(`/api/product/${productId}`, {
+            const res = await axios.patch(`/api/product/${productId}`, {
                 vote: updatedVoteCount
             });
 
