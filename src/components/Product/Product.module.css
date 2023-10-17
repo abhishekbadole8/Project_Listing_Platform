@@ -1,4 +1,3 @@
-
 .projectsBox {
     display: flex;
     flex-direction: column;
@@ -115,4 +114,62 @@
     display: flex;
     align-items: center;
     gap: .5vw;
+}
+
+
+@media only screen and (max-width: 850px) {
+    .projectsBox {
+        padding: 1.5vh 1.6vw;
+    }
+
+    .projectLogo img {
+        width: 14.5vw;
+        margin-top: .5vh;
+    }
+
+    .jobDetailsInfo {
+        justify-content: space-evenly;
+    }
+
+    .jobDetails p {
+        font-weight: 400;
+        line-height: 120%;
+    }
+
+    .typeDetails {
+        gap: 3vw;
+    }
+
+    /* Type Tags */
+    .projectType p {
+        padding: .6vh 1.7vw;
+        font-size: .9em;
+    }
+
+    .projectComments p {
+        display: none;
+    }
+
+    .projectEditButtonDiv button {
+        width: 15vw;
+        font-size: 1em;
+    }
+
+    .projectTagsDiv {
+        justify-content: space-between;
+    }
+
+    .upVoteCountTag {
+        width: 100%;
+        padding: 0 1.5vw;
+    }
+
+    .commentCountTag {
+        gap: 1vw;
+    }
+
+    .commentCountTag p {
+        font-size: 1.05rem;
+    }
+
 }

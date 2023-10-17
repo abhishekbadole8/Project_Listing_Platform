@@ -44,7 +44,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2.5vh;
+    gap: 1.05rem;
 }
 
 /* Error Msg */
@@ -85,7 +85,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
+    gap: .75rem;
 }
 
 .loginButton {
@@ -115,7 +115,7 @@
         width: 85vw;
         height: 45%;
         padding: 5vw 7vw;
-        gap: 3.25vh;
+        gap: 1.1rem;
     }
 
     .AuthPageLoginBox p {
@@ -145,7 +145,7 @@
 
     .email,
     .password {
-        gap: 6.5%;
+        gap: .75rem;
     }
 
 }

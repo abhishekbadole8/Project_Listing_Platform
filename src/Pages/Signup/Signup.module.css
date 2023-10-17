@@ -112,10 +112,8 @@
         width: 85vw;
         height: 55vh;
         padding: 5vw 7vw;
-        gap: 2.65vh;
-    }
-
-   
+        gap: 1.05rem;
+    }   
 
     .AuthPageBox p {
         font-size: 1.2rem;

@@ -62,14 +62,7 @@ function Product({ product, userId, isActive, filterClickBoxId, getProducts, han
                     {/* Box Right */}
                     <div className={styles.projectDetailsBoxRight}>
 
-                        {/* Edit Button */}
-                        {/* {user_token && user_id === userId &&
-            (<div className={styles.projectEditButtonDiv}>
-
-                <button onClick={() => handelEditClick(pro)}>Edit</button>
-
-            </div>)} */}
-
+                        
                         <div className={styles.projectTagsDiv}>
 
                             <div className={styles.upVoteCountTag} onClick={() => filterClickBoxId(_id)}>
